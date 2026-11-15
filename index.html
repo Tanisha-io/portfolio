@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -13,8 +13,11 @@
 <body>
   <header class="site-header">
     <nav class="site-nav" id="site-nav" aria-label="Primary">
-      <a href="#top">Intro</a>
       <a href="#about">About me</a>
+      <a href="#experience">Work Experience</a>
+      <a href="#highlights">Felicitations</a>
+      <a href="#projects">Projects</a>
+      <a href="#connect">Lets connect</a>
     </nav>
     <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" id="nav-toggle">
       <span></span><span></span>
@@ -22,10 +25,9 @@
   </header>
 
   <main>
-    <section class="hero" id="top">
-      <div class="hero-media placeholder" aria-hidden="true"></div>
+    <section class="hero" id="top" style="--hero: url('assets/hero-photo.jpg')">
       <div class="hero-content">
-        <h1>Hi, I’m Tanisha.</h1>
+        <h1>Hi, I'm Tanisha.</h1>
         <p class="hero-tag">Engineering my way through coffee, ideas and a little bit of chaos.</p>
         <a class="btn-pill" href="#about">Explore my services</a>
       </div>
@@ -35,11 +37,11 @@
       <h2>About me</h2>
       <div class="about-copy">
         <p class="lede">
-          I’m an engineer by education, a problem-solver by instinct,
+          I'm an engineer by education, a problem-solver by instinct,
           and an entrepreneur at heart.
         </p>
         <p>
-          An IIT Kharagpur graduate, I’ve explored the worlds of
+          An IIT Kharagpur graduate, I've explored the worlds of
           data engineering, product development, fintech and
           startups. I like connecting the dots between technology
           and business turning complex problems into practical
@@ -47,8 +49,254 @@
         </p>
       </div>
       <blockquote>
-        “Here to building things that matter, asking better questions, and never settling for the obvious”
+        "Here to building things that matter, asking better questions, and never settling for the obvious"
       </blockquote>
+    </section>
+
+    <div class="photo-break" style="--break: url('assets/divider-desk.jpg')" role="img" aria-label="Working at a desk with coffee and a notebook"></div>
+
+    <section class="experience" id="experience">
+      <h2>Work Experience</h2>
+
+      <article class="exp-card reveal">
+        <div class="exp-text">
+          <h3>PayU <span>| Associate Data Engineer</span></h3>
+          <p>
+            Working at the intersection of data engineering and fintech,
+            building scalable data workflows and automation systems.
+            Migrated workflows across serverless and application clusters
+            to optimize compute costs. Developed observability dags for
+            query intelligence, KPI analytics and cluster performance,
+            automated Amazon MSK Kafka pipelines for onboarding
+            databases and tables
+          </p>
+          <p class="exp-place">Gurgaon, India · June 2025 – Present</p>
+        </div>
+        <div class="exp-media placeholder" aria-hidden="true"><span>Image</span></div>
+      </article>
+
+      <article class="exp-card reverse reveal">
+        <div class="exp-text">
+          <h3>Datsol Solutions <span>| Co-founder</span></h3>
+          <p>
+            Co-founded student-led startup translating ideas into
+            viable products. Spearheaded development and
+            stakeholder relationships, securing projects worth ₹14.93
+            lakh across 15+ engagements. Supported two client
+            ventures in securing early-stage funding. Raised ₹35 lakh in
+            seed funding for Dhwani AI
+          </p>
+          <p class="exp-place">IIT KGP · Jan 2024 – May 2025</p>
+        </div>
+        <div class="exp-media placeholder" aria-hidden="true"><span>Image</span></div>
+      </article>
+
+      <article class="exp-card reveal">
+        <div class="exp-text">
+          <h3>Mastercard <span>| Product Development Intern</span></h3>
+          <p>
+            Contributed to payment security and fraud
+            intelligence initiatives, delivering a chargeback alert
+            dashboard to improve operational visibility and
+            insights. Also contributed to a patented fraud
+            detection module focused on strengthening fraud
+            identification capabilities
+          </p>
+          <p class="exp-place">Pune, India · May 2024 – July 2024</p>
+          <p class="exp-place">Atlanta, USA · Remote · May 2023 – Oct 2023</p>
+        </div>
+        <div class="exp-media placeholder" aria-hidden="true"><span>Image</span></div>
+      </article>
+
+      <article class="exp-card reverse reveal">
+        <div class="exp-text">
+          <h3>EVVA Health <span>| Technical Product Manager</span></h3>
+          <p>
+            Worked on technology research and product architecture for
+            an AI-powered healthcare assistant. Analysed 200+ patents
+            to identify technology gaps and emerging opportunities,
+            translating research insights into architectural
+            considerations while evaluating technical feasibility and
+            product requirements.
+          </p>
+          <p class="exp-place">IIT KGP · Jan 2024 – May 2025</p>
+        </div>
+        <div class="exp-media placeholder" aria-hidden="true"><span>Image</span></div>
+      </article>
+    </section>
+
+    <section class="highlights" id="highlights">
+      <div class="hl-page reveal">
+        <div class="band">
+          <h2>A Few Highlights</h2>
+          <p>A collection of milestones, recognitions and experiences</p>
+        </div>
+        <div class="hl-grid">
+          <figure>
+            <div class="ph" aria-hidden="true"><span>Image</span></div>
+            <figcaption>Best Paper | IHSSRC Colloquium | Energy Market Cybersecurity · 2024</figcaption>
+          </figure>
+          <figure>
+            <div class="ph" aria-hidden="true"><span>Image</span></div>
+            <figcaption>1st Runner-up | Grameen Foundation Grand Finale | ₹1 lakh grant · 2024</figcaption>
+          </figure>
+          <figure>
+            <div class="ph" aria-hidden="true"><span>Image</span></div>
+            <figcaption>Top 10 | IIT Kharagpur College Champions | Forbes India × Unstop · 2023</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="hl-page reveal">
+        <div class="band">
+          <h2>A Few Highlights</h2>
+          <p>A collection of milestones, recognitions and experiences</p>
+        </div>
+        <div class="hl-grid">
+          <figure>
+            <div class="ph" aria-hidden="true"><span>Image</span></div>
+            <figcaption>Tata Elxsi TeliPort | East Zone Campus Winner | Pre Placement Interview · 2023</figcaption>
+          </figure>
+          <figure>
+            <div class="ph" aria-hidden="true"><span>Image</span></div>
+            <figcaption>ACET Examination | Institute of Actuaries of India | 82% score · 298 candidates · 2023</figcaption>
+          </figure>
+          <figure>
+            <div class="ph" aria-hidden="true"><span>Image</span></div>
+            <figcaption>KPMG Ideation Challenge | National Finalist | 2022</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="hl-page reveal">
+        <div class="band">
+          <h2>A Few Highlights</h2>
+          <p>A collection of milestones, recognitions and experiences</p>
+        </div>
+        <div class="hl-grid">
+          <figure>
+            <div class="ph" aria-hidden="true"><span>Image</span></div>
+            <figcaption>Prime Minister's Scholarship Scheme | Selected in Merit List · 2022</figcaption>
+          </figure>
+          <figure>
+            <div class="ph" aria-hidden="true"><span>Image</span></div>
+            <figcaption>AIR 17 | Regional Mathematics Olympiad | All India Female Rank 1 · KVS · 2018</figcaption>
+          </figure>
+          <figure>
+            <div class="ph" aria-hidden="true"><span>Image</span></div>
+            <figcaption>State Rank 1, City Rank 2 | State Rank 3 | National Science Olympiad · 2015-16</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="hl-page reveal">
+        <div class="band">
+          <h2>A Few Highlights</h2>
+          <p>A collection of milestones, recognitions and experiences</p>
+        </div>
+        <div class="hl-grid hl-grid-single">
+          <figure>
+            <div class="ph" aria-hidden="true"><span>Image</span></div>
+            <figcaption>JENESYS Japan | Student Exchange Programme · 2017</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="projects" id="projects">
+      <h2 class="reveal">Projects</h2>
+      <div class="project-grid">
+        <article class="project-card reveal">
+          <div class="ph" aria-hidden="true"><span>Image</span></div>
+          <h3>Life Insurance Corporation of India</h3>
+          <p class="meta">Equity Valuation · 6 Nov 2024</p>
+          <p>
+            An equity research note on India's largest life insurer,
+            examining its business model, financial performance,
+            embedded value, value of new business and solvency.
+          </p>
+          <a class="btn-view" href="https://tanisha-io.github.io/trex.io/investment-research/lic_valuation.pdf" target="_blank" rel="noopener noreferrer">View project</a>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="ph" aria-hidden="true"><span>Image</span></div>
+          <h3>Bharat Electronics Limited</h3>
+          <p class="meta">Equity Valuation · 6 Nov 2024</p>
+          <p>
+            An assessment of India's defence-electronics major, covering
+            its business segments, industry position, financial
+            performance, order-book opportunity and valuation.
+          </p>
+          <a class="btn-view" href="https://tanisha-io.github.io/trex.io/investment-research/Bharat_Electronics_Valuation.pdf" target="_blank" rel="noopener noreferrer">View project</a>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="ph" aria-hidden="true"><span>Image</span></div>
+          <h3>ClaimsGuard HiLabs Case Study</h3>
+          <p class="meta">Product Case Study · 2024</p>
+          <p>
+            A proposed solution to identify and manage healthcare
+            provider-network disruption risks and recommend
+            interventions to reduce cost and access impact.
+          </p>
+          <a class="btn-view" href="https://tanisha-io.github.io/trex.io/presentations/20EE38017_HiLabs.pdf" target="_blank" rel="noopener noreferrer">View project</a>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="ph" aria-hidden="true"><span>Image</span></div>
+          <h3>Flipkart Case Challenge</h3>
+          <p class="meta">Product Case Study · 2024</p>
+          <p>
+            Inspired by sandbox simulations like Minecraft, this concept
+            explores how a sustainable human settlement on Mars could be
+            designed through virtual world building.
+          </p>
+          <a class="btn-view" href="https://tanisha-io.github.io/trex.io/presentations/20EE38017_flipkart.pdf" target="_blank" rel="noopener noreferrer">View project</a>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="ph" aria-hidden="true"><span>Image</span></div>
+          <h3>Data Quality Index</h3>
+          <p class="meta">Product Ideation · 2024</p>
+          <p>
+            A product concept addressing the fragmentation of
+            pharmaceutical and healthcare-provider data across clinical,
+            claims and genomic sources to have a centralized repository
+            of standardized data.
+          </p>
+          <a class="btn-view" href="https://tanisha-io.github.io/trex.io/presentations/Product_Ideation.pdf" target="_blank" rel="noopener noreferrer">View project</a>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="ph" aria-hidden="true"><span>Image</span></div>
+          <h3>Multilingual Emotion Classification</h3>
+          <p class="meta">Guide: Dr. Nirmalya Ghosh · Aug 24 – Apr 25</p>
+          <p>
+            Developed an integrated framework for cross-lingual emotion
+            analysis, combining ASR, OpenSMILE and BERT–LSTM bringing
+            speech processing techniques together for emotion intelligence.
+          </p>
+          <a class="btn-view" href="https://github.com/Tanisha-io/trex.io/tree/main/engineering-research/audio-sentiment-analysis" target="_blank" rel="noopener noreferrer">View project</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="connect" id="connect">
+      <div class="connect-inner">
+        <div class="connect-copy">
+          <h2>If something here caught your attention, I'd love to hear from you</h2>
+          <p>Based in India · Always open to a good conversation</p>
+        </div>
+        <form class="contact-form" action="https://formsubmit.co/kaitanisha2601@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="Portfolio contact" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" />
+          <label>Name<input type="text" name="name" required /></label>
+          <label>Email<input type="email" name="email" required /></label>
+          <label>Message<textarea name="message" rows="4" required></textarea></label>
+          <button type="submit">Send</button>
+        </form>
+      </div>
     </section>
   </main>
 
