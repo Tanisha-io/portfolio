@@ -4,3 +4,10 @@ Thumbs.db
 .vscode/
 .env
 .env.*
+_ref/
+assets/img_*.png
+assets/hero.jpg
+assets/hero-full.jpg
+assets/about-divider.jpg
+assets/contact-bg.jpg
+assets/divider-notebook.jpg
