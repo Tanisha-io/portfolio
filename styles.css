@@ -98,9 +98,10 @@ img {
   display: flex;
   align-items: center;
   padding: 6rem clamp(1.25rem, 5vw, 4rem) 4rem;
+  /* Hero asset is 1024×550 (~1.86:1); subject sits on the right */
   background:
-    linear-gradient(90deg, rgba(20, 14, 10, 0.55) 0%, rgba(20, 14, 10, 0.18) 55%, rgba(20, 14, 10, 0.05) 100%),
-    var(--hero) center / cover no-repeat;
+    linear-gradient(90deg, rgba(20, 14, 10, 0.62) 0%, rgba(20, 14, 10, 0.28) 42%, rgba(20, 14, 10, 0.08) 100%),
+    var(--hero) center right / cover no-repeat;
   color: var(--cream);
 }
 
@@ -252,6 +253,7 @@ img {
 
 .exp-media {
   min-height: 240px;
+  aspect-ratio: 4 / 3;
   background: #2a2a2a;
 }
 
@@ -522,8 +524,54 @@ img {
   }
 }
 
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hl-page.reveal .hl-grid figure {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s ease;
+}
+
+.hl-page.reveal.is-visible .hl-grid figure {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hl-page.reveal.is-visible .hl-grid figure:nth-child(1) {
+  transition-delay: 0.08s;
+}
+
+.hl-page.reveal.is-visible .hl-grid figure:nth-child(2) {
+  transition-delay: 0.18s;
+}
+
+.hl-page.reveal.is-visible .hl-grid figure:nth-child(3) {
+  transition-delay: 0.28s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .reveal,
+  .hl-page.reveal .hl-grid figure {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
