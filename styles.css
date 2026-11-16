@@ -94,19 +94,26 @@ img {
 
 .hero {
   position: relative;
-  min-height: min(92vh, 820px);
+  /* Fill the first screen; photo is ~834×468 (~16:9), subject on the right */
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
   display: flex;
   align-items: center;
-  padding: 6rem clamp(1.25rem, 5vw, 4rem) 4rem;
-  /* Hero asset is 1024×550 (~1.86:1); subject sits on the right */
+  padding: 6.5rem clamp(1.25rem, 5vw, 4.5rem) 4rem;
+  overflow: hidden;
   background:
-    linear-gradient(90deg, rgba(20, 14, 10, 0.62) 0%, rgba(20, 14, 10, 0.28) 42%, rgba(20, 14, 10, 0.08) 100%),
-    var(--hero) center right / cover no-repeat;
+    linear-gradient(90deg, rgba(20, 14, 10, 0.58) 0%, rgba(20, 14, 10, 0.22) 45%, rgba(20, 14, 10, 0.05) 100%),
+    var(--hero) right center / cover no-repeat;
   color: var(--cream);
 }
 
 .hero-content {
-  max-width: 28rem;
+  position: relative;
+  z-index: 1;
+  max-width: min(32rem, 52vw);
 }
 
 .hero h1 {
@@ -550,9 +557,17 @@ img {
   }
 
   .hero {
-    min-height: 70vh;
-    align-items: flex-end;
-    padding-bottom: 3rem;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
+    align-items: center;
+    padding: 5.5rem 1.25rem 3rem;
+    background-position: 70% center;
+  }
+
+  .hero-content {
+    max-width: 100%;
   }
 }
 
