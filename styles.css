@@ -386,18 +386,21 @@ img {
   font-size: 0.9rem;
 }
 
-.h-scroll {
-  overflow: hidden;
-  padding: 0.5rem 0 0.75rem;
-  outline: none;
-  cursor: grab;
-  touch-action: pan-y;
-  overscroll-behavior-y: auto;
-  overscroll-behavior-x: contain;
+.h-scroll-wrap {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0 0.5rem;
 }
 
-.h-scroll:active {
-  cursor: grabbing;
+.h-scroll {
+  overflow: hidden;
+  min-width: 0;
+  padding: 0.5rem 0 0.75rem;
+  outline: none;
+  touch-action: pan-y;
 }
 
 .h-track {
@@ -405,9 +408,77 @@ img {
   align-items: stretch;
   gap: 1.15rem;
   width: max-content;
-  padding: 0 clamp(1rem, 4vw, 2.5rem) 0.5rem;
+  padding: 0 clamp(0.5rem, 2vw, 1.5rem) 0.5rem;
   will-change: transform;
   backface-visibility: hidden;
+}
+
+.h-arrow {
+  z-index: 2;
+  display: inline-grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid rgba(17, 17, 17, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+  font-size: 1.45rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.h-arrow:hover {
+  background: #fff;
+  transform: scale(1.04);
+}
+
+.projects .h-arrow {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(28, 28, 28, 0.9);
+  color: #fff;
+}
+
+.projects .h-arrow:hover {
+  background: #2a2a2a;
+}
+
+.section-skip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: fit-content;
+  margin: 0.35rem auto 0.4rem;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid rgba(17, 17, 17, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.section-skip:hover {
+  background: #fff;
+  transform: translateY(1px);
+}
+
+.section-skip span {
+  font-size: 0.95rem;
+}
+
+.section-skip-dark {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--cream);
+}
+
+.section-skip-dark:hover {
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .hl-card {
@@ -613,6 +684,26 @@ img {
 }
 
 @media (max-width: 900px) {
+  .h-scroll-wrap {
+    grid-template-columns: 1fr;
+    padding: 0 2.6rem;
+  }
+
+  .h-arrow-prev,
+  .h-arrow-next {
+    position: absolute;
+    top: 42%;
+    transform: translateY(-50%);
+  }
+
+  .h-arrow-prev {
+    left: 0.25rem;
+  }
+
+  .h-arrow-next {
+    right: 0.25rem;
+  }
+
   .about,
   .exp-card,
   .exp-card.reverse,

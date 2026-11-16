@@ -41,22 +41,23 @@ if (revealEls.length) {
 
 document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
   const track = scroller.querySelector(".h-track");
+  const wrap = scroller.closest(".h-scroll-wrap");
   if (!track) return;
-
-  if (reduceMotion) return;
 
   const originals = Array.from(track.children);
   if (originals.length < 2) return;
 
-  originals.forEach((child) => {
-    const clone = child.cloneNode(true);
-    clone.setAttribute("aria-hidden", "true");
-    clone.querySelectorAll("a, button, [tabindex]").forEach((el) => {
-      el.setAttribute("tabindex", "-1");
-      if (el.hasAttribute("href")) el.removeAttribute("href");
+  if (!reduceMotion) {
+    originals.forEach((child) => {
+      const clone = child.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      clone.querySelectorAll("a, button, [tabindex]").forEach((el) => {
+        el.setAttribute("tabindex", "-1");
+        if (el.hasAttribute("href")) el.removeAttribute("href");
+      });
+      track.appendChild(clone);
     });
-    track.appendChild(clone);
-  });
+  }
 
   let paused = false;
   let inView = false;
@@ -71,7 +72,7 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
     loopWidth = originals.reduce((sum, child, index) => {
       return sum + child.getBoundingClientRect().width + (index < originals.length - 1 ? gap : 0);
     }, 0);
-    loopWidth += gap;
+    if (!reduceMotion) loopWidth += gap;
     if (loopWidth > 0) {
       offset = ((offset % loopWidth) + loopWidth) % loopWidth;
       track.style.transform = `translate3d(${-offset}px, 0, 0)`;
@@ -81,6 +82,22 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
   const wrapOffset = () => {
     if (loopWidth <= 0) return;
     offset = ((offset % loopWidth) + loopWidth) % loopWidth;
+  };
+
+  const applyOffset = () => {
+    wrapOffset();
+    track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+  };
+
+  const nudge = (direction) => {
+    const step = Math.max(scroller.clientWidth * 0.72, 240);
+    paused = true;
+    window.clearTimeout(resumeTimer);
+    offset += direction * step;
+    applyOffset();
+    resumeTimer = window.setTimeout(() => {
+      paused = false;
+    }, 1800);
   };
 
   const pause = () => {
@@ -94,6 +111,15 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
       paused = false;
     }, 1200);
   };
+
+  if (wrap) {
+    wrap.querySelectorAll("[data-hdir]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const dir = Number(btn.getAttribute("data-hdir")) || 1;
+        nudge(dir);
+      });
+    });
+  }
 
   ["pointerenter", "focusin", "touchstart"].forEach((type) => {
     scroller.addEventListener(type, pause, { passive: true });
@@ -117,50 +143,50 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
     { passive: true }
   );
 
-  // Keep vertical page scroll free. Only nudge the gallery on clear horizontal intent.
+  // Keep vertical page scroll free. Only shift+wheel moves the gallery.
   scroller.addEventListener(
     "wheel",
     (event) => {
+      if (!event.shiftKey) return;
       if (loopWidth <= 0) return;
-      if (Math.abs(event.deltaX) < 1 || Math.abs(event.deltaX) <= Math.abs(event.deltaY)) {
-        return;
-      }
       event.preventDefault();
       pause();
-      offset += event.deltaX;
-      wrapOffset();
-      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+      offset += event.deltaY || event.deltaX;
+      applyOffset();
       scheduleResume();
     },
     { passive: false }
   );
 
-  const tick = () => {
-    if (inView && !paused && loopWidth > 0) {
-      scroller.classList.add("is-autoplaying");
-      offset += speed;
-      wrapOffset();
-      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
-    } else {
-      scroller.classList.remove("is-autoplaying");
-    }
-    window.requestAnimationFrame(tick);
-  };
+  if (!reduceMotion) {
+    const tick = () => {
+      if (inView && !paused && loopWidth > 0) {
+        scroller.classList.add("is-autoplaying");
+        offset += speed;
+        applyOffset();
+      } else {
+        scroller.classList.remove("is-autoplaying");
+      }
+      window.requestAnimationFrame(tick);
+    };
 
-  const viewIo = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        inView = entry.isIntersecting;
-      });
-    },
-    { threshold: 0.12 }
-  );
-  viewIo.observe(scroller);
+    const viewIo = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          inView = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.12 }
+    );
+    viewIo.observe(scroller);
 
-  // Wait a frame so reveal/layout widths are real before measuring.
-  window.requestAnimationFrame(() => {
-    measure();
-    window.requestAnimationFrame(tick);
-  });
+    window.requestAnimationFrame(() => {
+      measure();
+      window.requestAnimationFrame(tick);
+    });
+  } else {
+    window.requestAnimationFrame(measure);
+  }
+
   window.addEventListener("resize", measure, { passive: true });
 });
