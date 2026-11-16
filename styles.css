@@ -628,11 +628,11 @@ img {
   width: 2.4rem;
   height: 2.4rem;
   padding: 0;
-  border: 1.5px solid rgba(17, 17, 17, 0.9);
+  border: 1.5px solid rgba(243, 239, 230, 0.85);
   border-radius: 50%;
-  background: rgba(243, 239, 230, 0.92);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-  color: var(--ink);
+  background: transparent;
+  box-shadow: none;
+  color: var(--cream);
   cursor: pointer;
   transition:
     background 0.22s ease,
@@ -648,7 +648,8 @@ img {
 }
 
 .section-nav-btn:hover:not(:disabled) {
-  background: var(--cream);
+  border-color: var(--tan);
+  color: var(--tan);
   transform: translateY(-1px);
 }
 
