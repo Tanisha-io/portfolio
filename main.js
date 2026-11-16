@@ -174,7 +174,6 @@ const sectionLabels = {
 const sections = sectionIds
   .map((id) => document.getElementById(id))
   .filter(Boolean);
-const homeBtn = document.getElementById("section-home");
 const prevBtn = document.getElementById("section-prev");
 const nextBtn = document.getElementById("section-next");
 const sectionLabel = document.getElementById("section-nav-label");
@@ -192,18 +191,20 @@ const getSectionIndex = () => {
 const updateSectionNav = () => {
   activeSection = getSectionIndex();
   const nextIndex = Math.min(activeSection + 1, sections.length - 1);
+  const atEnd = activeSection >= sections.length - 1;
+  const kicker = document.querySelector(".section-nav-kicker");
   if (sectionLabel) {
-    sectionLabel.textContent =
-      activeSection >= sections.length - 1
-        ? "Top"
-        : sectionLabels[sections[nextIndex].id] || "Next";
+    sectionLabel.textContent = atEnd
+      ? "Intro"
+      : sectionLabels[sections[nextIndex].id] || "Next";
   }
+  if (kicker) kicker.textContent = atEnd ? "Back" : "Next";
   if (prevBtn) prevBtn.disabled = activeSection <= 0;
   if (nextBtn) {
     nextBtn.disabled = false;
     nextBtn.setAttribute(
       "aria-label",
-      activeSection >= sections.length - 1 ? "Back to top" : "Next section"
+      atEnd ? "Back to top" : "Next section"
     );
   }
 };
@@ -215,9 +216,6 @@ const goToSection = (index) => {
 };
 
 if (prevBtn && nextBtn && sections.length) {
-  if (homeBtn) {
-    homeBtn.addEventListener("click", () => goToSection(0));
-  }
   prevBtn.addEventListener("click", () => {
     goToSection(Math.max(getSectionIndex() - 1, 0));
   });

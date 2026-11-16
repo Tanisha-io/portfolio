@@ -608,47 +608,22 @@ img {
 
 .section-nav {
   position: fixed;
-  right: clamp(0.85rem, 2.5vw, 1.5rem);
-  bottom: clamp(1rem, 3vh, 1.75rem);
+  right: clamp(0.9rem, 2.8vw, 1.6rem);
+  bottom: clamp(1rem, 3vh, 1.8rem);
   z-index: 80;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.4rem;
   padding: 0.55rem 0.5rem 0.6rem;
-  border: 1px solid rgba(168, 146, 111, 0.45);
+  border: 1px solid rgba(168, 146, 111, 0.55);
   border-radius: 1.35rem;
   background:
-    linear-gradient(180deg, rgba(243, 239, 230, 0.96), rgba(232, 223, 208, 0.94));
+    linear-gradient(180deg, rgba(255, 252, 246, 0.96), rgba(243, 239, 230, 0.92));
   box-shadow:
-    0 14px 34px rgba(20, 14, 10, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    0 12px 28px rgba(40, 28, 18, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
   color: var(--ink);
-}
-
-.section-nav-photo {
-  width: 3.15rem;
-  height: 3.15rem;
-  padding: 0;
-  border: 1.5px solid var(--tan-deep);
-  border-radius: 50%;
-  overflow: hidden;
-  background: #2a211c;
-  cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.section-nav-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 72% center;
-  transform: scale(1.08);
-}
-
-.section-nav-photo:hover {
-  transform: translateY(-1px) scale(1.03);
-  box-shadow: 0 6px 16px rgba(20, 14, 10, 0.22);
 }
 
 .section-nav-btn {
@@ -657,33 +632,39 @@ img {
   width: 2.35rem;
   height: 2.35rem;
   border: 1px solid rgba(168, 146, 111, 0.55);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.55);
-  color: #3a2f26;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease,
+    transform 0.22s ease,
+    opacity 0.22s ease;
 }
 
 .section-nav-btn svg {
-  width: 1.05rem;
-  height: 1.05rem;
+  width: 1rem;
+  height: 1rem;
 }
 
 .section-nav-btn:hover:not(:disabled) {
-  background: var(--tan);
+  background: rgba(197, 179, 150, 0.28);
   border-color: var(--tan-deep);
   transform: translateY(-1px);
 }
 
 .section-nav-btn-next {
   background: var(--tan-deep);
-  border-color: transparent;
+  border-color: var(--tan-deep);
   color: var(--cream);
   animation: section-nav-pulse 2.6s ease-in-out infinite;
 }
 
 .section-nav-btn-next:hover:not(:disabled) {
-  background: #947a55;
+  background: #967f59;
+  border-color: #967f59;
   color: var(--cream);
 }
 
@@ -693,17 +674,30 @@ img {
   animation: none;
 }
 
+.section-nav-meta {
+  display: grid;
+  gap: 0.12rem;
+  min-width: 4.4rem;
+  padding: 0.15rem 0.2rem 0.25rem;
+  text-align: center;
+}
+
+.section-nav-kicker {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tan-deep);
+}
+
 .section-nav-label {
   margin: 0;
-  max-width: 4.6rem;
-  padding: 0.1rem 0.15rem;
-  text-align: center;
   font-family: var(--serif);
-  font-size: 0.78rem;
+  font-size: 0.95rem;
   font-weight: 600;
+  line-height: 1.15;
   letter-spacing: 0.01em;
-  line-height: 1.2;
-  color: #4a3d32;
+  color: var(--ink);
 }
 
 @keyframes section-nav-pulse {
