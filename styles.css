@@ -397,6 +397,11 @@ img {
   outline: none;
 }
 
+.h-scroll.is-autoplaying {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
+
 .h-scroll::-webkit-scrollbar {
   height: 8px;
 }
