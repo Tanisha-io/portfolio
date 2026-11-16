@@ -118,11 +118,9 @@ img {
   background:
     linear-gradient(90deg, rgba(20, 14, 10, 0.58) 0%, rgba(20, 14, 10, 0.22) 45%, rgba(20, 14, 10, 0.05) 100%),
     var(--hero) right center / cover no-repeat;
-  transform: scale(1.045);
-  opacity: 0;
-  animation:
-    hero-media-in 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards,
-    hero-media-drift 18s ease-out 1.2s forwards;
+  transform: scale(1.04);
+  will-change: transform;
+  animation: hero-media-drift 16s ease-out forwards;
 }
 
 .hero-content {
@@ -178,13 +176,10 @@ img {
   transform: translateY(-1px);
 }
 
-@keyframes hero-media-in {
-  to {
-    opacity: 1;
-  }
-}
-
 @keyframes hero-media-drift {
+  from {
+    transform: scale(1.04);
+  }
   to {
     transform: scale(1);
   }
