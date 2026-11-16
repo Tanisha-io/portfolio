@@ -162,90 +162,70 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
   window.addEventListener("resize", measure, { passive: true });
 });
 
-const sections = [
-  { id: "top", label: "Intro" },
-  { id: "about", label: "About me" },
-  { id: "experience", label: "Experience" },
-  { id: "highlights", label: "Highlights" },
-  { id: "projects", label: "Projects" },
-  { id: "connect", label: "Connect" },
-].map((item) => ({
-  ...item,
-  el: document.getElementById(item.id),
-})).filter((item) => item.el);
-
-const pagerPrev = document.getElementById("pager-prev");
-const pagerNext = document.getElementById("pager-next");
-const pagerLabel = document.getElementById("pager-label");
+const sectionIds = ["top", "about", "experience", "highlights", "projects", "connect"];
+const sectionLabels = {
+  top: "Intro",
+  about: "About me",
+  experience: "Experience",
+  highlights: "Highlights",
+  projects: "Projects",
+  connect: "Connect",
+};
+const sections = sectionIds
+  .map((id) => document.getElementById(id))
+  .filter(Boolean);
+const prevBtn = document.getElementById("section-prev");
+const nextBtn = document.getElementById("section-next");
+const sectionLabel = document.getElementById("section-nav-label");
+let activeSection = 0;
 
 const getSectionIndex = () => {
-  const marker = window.scrollY + window.innerHeight * 0.28;
+  const marker = window.scrollY + window.innerHeight * 0.35;
   let index = 0;
   sections.forEach((section, i) => {
-    if (section.el.offsetTop <= marker) index = i;
+    if (section.offsetTop <= marker) index = i;
   });
   return index;
+};
+
+const updateSectionNav = () => {
+  activeSection = getSectionIndex();
+  const nextIndex = Math.min(activeSection + 1, sections.length - 1);
+  if (sectionLabel) {
+    sectionLabel.textContent =
+      activeSection >= sections.length - 1
+        ? "Top"
+        : sectionLabels[sections[nextIndex].id] || "Next";
+  }
+  if (prevBtn) prevBtn.disabled = activeSection <= 0;
+  if (nextBtn) {
+    nextBtn.disabled = false;
+    nextBtn.setAttribute(
+      "aria-label",
+      activeSection >= sections.length - 1 ? "Back to top" : "Next section"
+    );
+  }
 };
 
 const goToSection = (index) => {
   const target = sections[index];
   if (!target) return;
-  target.el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
 };
 
-let labelText = "";
-
-const setPagerLabel = (text) => {
-  if (!pagerLabel || text === labelText) return;
-  labelText = text;
-  pagerLabel.classList.add("is-swap");
-  window.setTimeout(() => {
-    pagerLabel.textContent = text;
-    pagerLabel.classList.remove("is-swap");
-  }, 160);
-};
-
-const updatePager = () => {
-  if (!pagerPrev || !pagerNext || !pagerLabel || !sections.length) return;
-  const index = getSectionIndex();
-  const next = sections[Math.min(index + 1, sections.length - 1)];
-  const atStart = index <= 0;
-  const atEnd = index >= sections.length - 1;
-
-  pagerPrev.disabled = atStart;
-  pagerNext.disabled = false;
-  setPagerLabel(atEnd ? "Top" : next.label);
-  pagerNext.setAttribute("aria-label", atEnd ? "Back to top" : `Next: ${next.label}`);
-  pagerPrev.setAttribute(
-    "aria-label",
-    atStart ? "Previous section" : `Previous: ${sections[Math.max(0, index - 1)].label}`
-  );
-};
-
-const flashPagerBtn = (btn) => {
-  if (!btn || reduceMotion) return;
-  btn.classList.add("is-pressed");
-  window.setTimeout(() => btn.classList.remove("is-pressed"), 220);
-};
-
-if (pagerPrev && pagerNext) {
-  pagerPrev.addEventListener("click", () => {
-    flashPagerBtn(pagerPrev);
-    const index = getSectionIndex();
-    goToSection(Math.max(0, index - 1));
+if (prevBtn && nextBtn && sections.length) {
+  prevBtn.addEventListener("click", () => {
+    goToSection(Math.max(getSectionIndex() - 1, 0));
   });
-
-  pagerNext.addEventListener("click", () => {
-    flashPagerBtn(pagerNext);
-    const index = getSectionIndex();
-    if (index >= sections.length - 1) {
+  nextBtn.addEventListener("click", () => {
+    const current = getSectionIndex();
+    if (current >= sections.length - 1) {
       goToSection(0);
       return;
     }
-    goToSection(index + 1);
+    goToSection(current + 1);
   });
-
-  updatePager();
-  window.addEventListener("scroll", updatePager, { passive: true });
-  window.addEventListener("resize", updatePager, { passive: true });
+  updateSectionNav();
+  window.addEventListener("scroll", updateSectionNav, { passive: true });
+  window.addEventListener("resize", updateSectionNav, { passive: true });
 }
