@@ -94,7 +94,7 @@ img {
 
 .hero {
   position: relative;
-  /* Fill the first screen; photo is ~834×468 (~16:9), subject on the right */
+  /* Full viewport; photo ~1920×1031, subject on the right */
   width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
@@ -114,6 +114,17 @@ img {
   position: relative;
   z-index: 1;
   max-width: min(32rem, 52vw);
+}
+
+.hero-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(4.5rem, 12vh, 8rem);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff);
+  pointer-events: none;
+  z-index: 2;
 }
 
 .hero h1 {
@@ -148,7 +159,8 @@ img {
   display: grid;
   grid-template-columns: 0.7fr 1.3fr;
   gap: 1.5rem 3rem;
-  padding: clamp(3rem, 7vw, 5rem) clamp(1.25rem, 5vw, 4rem);
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 5vw, 4rem) clamp(3rem, 7vw, 5rem);
+  margin-top: -1px;
   background: var(--white);
   color: var(--ink);
 }
