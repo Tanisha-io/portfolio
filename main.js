@@ -174,6 +174,7 @@ const sectionLabels = {
 const sections = sectionIds
   .map((id) => document.getElementById(id))
   .filter(Boolean);
+const homeBtn = document.getElementById("section-home");
 const prevBtn = document.getElementById("section-prev");
 const nextBtn = document.getElementById("section-next");
 const sectionLabel = document.getElementById("section-nav-label");
@@ -214,6 +215,9 @@ const goToSection = (index) => {
 };
 
 if (prevBtn && nextBtn && sections.length) {
+  if (homeBtn) {
+    homeBtn.addEventListener("click", () => goToSection(0));
+  }
   prevBtn.addEventListener("click", () => {
     goToSection(Math.max(getSectionIndex() - 1, 0));
   });
