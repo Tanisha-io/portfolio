@@ -37,3 +37,26 @@ if (revealEls.length) {
     });
   }
 }
+
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
+  if (reduceMotion) return;
+
+  scroller.addEventListener(
+    "wheel",
+    (event) => {
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+      if (maxScroll <= 0) return;
+
+      const atStart = scroller.scrollLeft <= 0;
+      const atEnd = scroller.scrollLeft >= maxScroll - 1;
+      if ((event.deltaY < 0 && atStart) || (event.deltaY > 0 && atEnd)) return;
+
+      event.preventDefault();
+      scroller.scrollLeft += event.deltaY;
+    },
+    { passive: false }
+  );
+});
