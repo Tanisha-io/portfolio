@@ -41,23 +41,22 @@ if (revealEls.length) {
 
 document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
   const track = scroller.querySelector(".h-track");
-  const wrap = scroller.closest(".h-scroll-wrap");
   if (!track) return;
+
+  if (reduceMotion) return;
 
   const originals = Array.from(track.children);
   if (originals.length < 2) return;
 
-  if (!reduceMotion) {
-    originals.forEach((child) => {
-      const clone = child.cloneNode(true);
-      clone.setAttribute("aria-hidden", "true");
-      clone.querySelectorAll("a, button, [tabindex]").forEach((el) => {
-        el.setAttribute("tabindex", "-1");
-        if (el.hasAttribute("href")) el.removeAttribute("href");
-      });
-      track.appendChild(clone);
+  originals.forEach((child) => {
+    const clone = child.cloneNode(true);
+    clone.setAttribute("aria-hidden", "true");
+    clone.querySelectorAll("a, button, [tabindex]").forEach((el) => {
+      el.setAttribute("tabindex", "-1");
+      if (el.hasAttribute("href")) el.removeAttribute("href");
     });
-  }
+    track.appendChild(clone);
+  });
 
   let paused = false;
   let inView = false;
@@ -72,7 +71,7 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
     loopWidth = originals.reduce((sum, child, index) => {
       return sum + child.getBoundingClientRect().width + (index < originals.length - 1 ? gap : 0);
     }, 0);
-    if (!reduceMotion) loopWidth += gap;
+    loopWidth += gap;
     if (loopWidth > 0) {
       offset = ((offset % loopWidth) + loopWidth) % loopWidth;
       track.style.transform = `translate3d(${-offset}px, 0, 0)`;
@@ -82,22 +81,6 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
   const wrapOffset = () => {
     if (loopWidth <= 0) return;
     offset = ((offset % loopWidth) + loopWidth) % loopWidth;
-  };
-
-  const applyOffset = () => {
-    wrapOffset();
-    track.style.transform = `translate3d(${-offset}px, 0, 0)`;
-  };
-
-  const nudge = (direction) => {
-    const step = Math.max(scroller.clientWidth * 0.72, 240);
-    paused = true;
-    window.clearTimeout(resumeTimer);
-    offset += direction * step;
-    applyOffset();
-    resumeTimer = window.setTimeout(() => {
-      paused = false;
-    }, 1800);
   };
 
   const pause = () => {
@@ -111,15 +94,6 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
       paused = false;
     }, 1200);
   };
-
-  if (wrap) {
-    wrap.querySelectorAll("[data-hdir]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const dir = Number(btn.getAttribute("data-hdir")) || 1;
-        nudge(dir);
-      });
-    });
-  }
 
   ["pointerenter", "focusin", "touchstart"].forEach((type) => {
     scroller.addEventListener(type, pause, { passive: true });
@@ -143,50 +117,115 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
     { passive: true }
   );
 
-  // Keep vertical page scroll free. Only shift+wheel moves the gallery.
   scroller.addEventListener(
     "wheel",
     (event) => {
-      if (!event.shiftKey) return;
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
       if (loopWidth <= 0) return;
       event.preventDefault();
       pause();
-      offset += event.deltaY || event.deltaX;
-      applyOffset();
+      offset += event.deltaY;
+      wrapOffset();
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
       scheduleResume();
     },
     { passive: false }
   );
 
-  if (!reduceMotion) {
-    const tick = () => {
-      if (inView && !paused && loopWidth > 0) {
-        scroller.classList.add("is-autoplaying");
-        offset += speed;
-        applyOffset();
-      } else {
-        scroller.classList.remove("is-autoplaying");
-      }
-      window.requestAnimationFrame(tick);
-    };
+  const tick = () => {
+    if (inView && !paused && loopWidth > 0) {
+      scroller.classList.add("is-autoplaying");
+      offset += speed;
+      wrapOffset();
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+    } else {
+      scroller.classList.remove("is-autoplaying");
+    }
+    window.requestAnimationFrame(tick);
+  };
 
-    const viewIo = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          inView = entry.isIntersecting;
-        });
-      },
-      { threshold: 0.12 }
-    );
-    viewIo.observe(scroller);
+  const viewIo = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        inView = entry.isIntersecting;
+      });
+    },
+    { threshold: 0.12 }
+  );
+  viewIo.observe(scroller);
 
-    window.requestAnimationFrame(() => {
-      measure();
-      window.requestAnimationFrame(tick);
-    });
-  } else {
-    window.requestAnimationFrame(measure);
-  }
-
+  // Wait a frame so reveal/layout widths are real before measuring.
+  window.requestAnimationFrame(() => {
+    measure();
+    window.requestAnimationFrame(tick);
+  });
   window.addEventListener("resize", measure, { passive: true });
 });
+
+const sections = [
+  { id: "top", label: "Intro" },
+  { id: "about", label: "About me" },
+  { id: "experience", label: "Experience" },
+  { id: "highlights", label: "Highlights" },
+  { id: "projects", label: "Projects" },
+  { id: "connect", label: "Connect" },
+].map((item) => ({
+  ...item,
+  el: document.getElementById(item.id),
+})).filter((item) => item.el);
+
+const pagerPrev = document.getElementById("pager-prev");
+const pagerNext = document.getElementById("pager-next");
+const pagerLabel = document.getElementById("pager-label");
+
+const getSectionIndex = () => {
+  const marker = window.scrollY + window.innerHeight * 0.28;
+  let index = 0;
+  sections.forEach((section, i) => {
+    if (section.el.offsetTop <= marker) index = i;
+  });
+  return index;
+};
+
+const goToSection = (index) => {
+  const target = sections[index];
+  if (!target) return;
+  target.el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+};
+
+const updatePager = () => {
+  if (!pagerPrev || !pagerNext || !pagerLabel || !sections.length) return;
+  const index = getSectionIndex();
+  const next = sections[Math.min(index + 1, sections.length - 1)];
+  const atStart = index <= 0;
+  const atEnd = index >= sections.length - 1;
+
+  pagerPrev.disabled = atStart;
+  pagerNext.disabled = false;
+  pagerLabel.textContent = atEnd ? "Top" : next.label;
+  pagerNext.setAttribute("aria-label", atEnd ? "Back to top" : `Next: ${next.label}`);
+  pagerPrev.setAttribute(
+    "aria-label",
+    atStart ? "Previous section" : `Previous: ${sections[Math.max(0, index - 1)].label}`
+  );
+};
+
+if (pagerPrev && pagerNext) {
+  pagerPrev.addEventListener("click", () => {
+    const index = getSectionIndex();
+    goToSection(Math.max(0, index - 1));
+  });
+
+  pagerNext.addEventListener("click", () => {
+    const index = getSectionIndex();
+    if (index >= sections.length - 1) {
+      goToSection(0);
+      return;
+    }
+    goToSection(index + 1);
+  });
+
+  updatePager();
+  window.addEventListener("scroll", updatePager, { passive: true });
+  window.addEventListener("resize", updatePager, { passive: true });
+}
