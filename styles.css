@@ -387,28 +387,15 @@ img {
 }
 
 .h-scroll {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
+  overflow: hidden;
   padding: 0.5rem 0 0.75rem;
   outline: none;
+  cursor: grab;
+  touch-action: pan-y;
 }
 
-.h-scroll.is-autoplaying {
-  scroll-snap-type: none;
-  scroll-behavior: auto;
-}
-
-.h-scroll::-webkit-scrollbar {
-  height: 8px;
-}
-
-.h-scroll::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.28);
-  border-radius: 999px;
+.h-scroll:active {
+  cursor: grabbing;
 }
 
 .h-track {
@@ -417,6 +404,8 @@ img {
   gap: 1.15rem;
   width: max-content;
   padding: 0 clamp(1rem, 4vw, 2.5rem) 0.5rem;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .hl-card {

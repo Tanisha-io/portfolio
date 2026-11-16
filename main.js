@@ -43,23 +43,6 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
   const track = scroller.querySelector(".h-track");
   if (!track) return;
 
-  scroller.addEventListener(
-    "wheel",
-    (event) => {
-      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-      const maxScroll = scroller.scrollWidth - scroller.clientWidth;
-      if (maxScroll <= 0) return;
-
-      const atStart = scroller.scrollLeft <= 0;
-      const atEnd = scroller.scrollLeft >= maxScroll - 1;
-      if ((event.deltaY < 0 && atStart) || (event.deltaY > 0 && atEnd)) return;
-
-      event.preventDefault();
-      scroller.scrollLeft += event.deltaY;
-    },
-    { passive: false }
-  );
-
   if (reduceMotion) return;
 
   const originals = Array.from(track.children);
@@ -79,8 +62,8 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
   let inView = false;
   let resumeTimer = 0;
   let loopWidth = 0;
-  let raf = 0;
-  const speed = 0.35;
+  let offset = 0;
+  const speed = 0.85;
 
   const measure = () => {
     const styles = getComputedStyle(track);
@@ -88,8 +71,16 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
     loopWidth = originals.reduce((sum, child, index) => {
       return sum + child.getBoundingClientRect().width + (index < originals.length - 1 ? gap : 0);
     }, 0);
-    // include the gap between the last original and first clone
     loopWidth += gap;
+    if (loopWidth > 0) {
+      offset = ((offset % loopWidth) + loopWidth) % loopWidth;
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+    }
+  };
+
+  const wrapOffset = () => {
+    if (loopWidth <= 0) return;
+    offset = ((offset % loopWidth) + loopWidth) % loopWidth;
   };
 
   const pause = () => {
@@ -101,7 +92,7 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
     window.clearTimeout(resumeTimer);
     resumeTimer = window.setTimeout(() => {
       paused = false;
-    }, 1600);
+    }, 1200);
   };
 
   ["pointerenter", "focusin", "touchstart"].forEach((type) => {
@@ -110,14 +101,6 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
   ["pointerleave", "focusout"].forEach((type) => {
     scroller.addEventListener(type, scheduleResume, { passive: true });
   });
-  scroller.addEventListener(
-    "wheel",
-    () => {
-      pause();
-      scheduleResume();
-    },
-    { passive: true }
-  );
   scroller.addEventListener(
     "pointerdown",
     () => {
@@ -134,30 +117,47 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
     { passive: true }
   );
 
+  scroller.addEventListener(
+    "wheel",
+    (event) => {
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      if (loopWidth <= 0) return;
+      event.preventDefault();
+      pause();
+      offset += event.deltaY;
+      wrapOffset();
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+      scheduleResume();
+    },
+    { passive: false }
+  );
+
   const tick = () => {
     if (inView && !paused && loopWidth > 0) {
       scroller.classList.add("is-autoplaying");
-      scroller.scrollLeft += speed;
-      if (scroller.scrollLeft >= loopWidth) {
-        scroller.scrollLeft -= loopWidth;
-      }
+      offset += speed;
+      wrapOffset();
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
     } else {
       scroller.classList.remove("is-autoplaying");
     }
-    raf = window.requestAnimationFrame(tick);
+    window.requestAnimationFrame(tick);
   };
 
   const viewIo = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        inView = entry.isIntersecting && entry.intersectionRatio > 0.35;
+        inView = entry.isIntersecting;
       });
     },
-    { threshold: [0, 0.35, 0.7] }
+    { threshold: 0.12 }
   );
   viewIo.observe(scroller);
 
-  measure();
+  // Wait a frame so reveal/layout widths are real before measuring.
+  window.requestAnimationFrame(() => {
+    measure();
+    window.requestAnimationFrame(tick);
+  });
   window.addEventListener("resize", measure, { passive: true });
-  raf = window.requestAnimationFrame(tick);
 });
