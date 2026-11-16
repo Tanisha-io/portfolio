@@ -654,16 +654,7 @@ img {
 }
 
 .section-nav-btn-next {
-  border-color: var(--tan-deep);
-  background: var(--tan-deep);
-  color: var(--cream);
   animation: section-nav-pulse 2.6s ease-in-out infinite;
-}
-
-.section-nav-btn-next:hover:not(:disabled) {
-  background: #967f59;
-  border-color: #967f59;
-  color: var(--cream);
 }
 
 .section-nav-btn:disabled {
