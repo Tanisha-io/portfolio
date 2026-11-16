@@ -392,6 +392,8 @@ img {
   outline: none;
   cursor: grab;
   touch-action: pan-y;
+  overscroll-behavior-y: auto;
+  overscroll-behavior-x: contain;
 }
 
 .h-scroll:active {

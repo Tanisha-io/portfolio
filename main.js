@@ -117,14 +117,17 @@ document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
     { passive: true }
   );
 
+  // Keep vertical page scroll free. Only nudge the gallery on clear horizontal intent.
   scroller.addEventListener(
     "wheel",
     (event) => {
-      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
       if (loopWidth <= 0) return;
+      if (Math.abs(event.deltaX) < 1 || Math.abs(event.deltaX) <= Math.abs(event.deltaY)) {
+        return;
+      }
       event.preventDefault();
       pause();
-      offset += event.deltaY;
+      offset += event.deltaX;
       wrapOffset();
       track.style.transform = `translate3d(${-offset}px, 0, 0)`;
       scheduleResume();
