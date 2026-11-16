@@ -718,11 +718,14 @@ img {
   align-items: center;
   gap: 0.35rem;
   padding: 0.45rem;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 999px;
   background: rgba(18, 14, 12, 0.72);
   backdrop-filter: blur(10px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  transform: translateY(14px);
+  animation: hero-rise 0.95s cubic-bezier(0.22, 1, 0.36, 1) 1.15s forwards;
 }
 
 .pager-btn {
@@ -735,12 +738,20 @@ img {
   background: rgba(243, 239, 230, 0.12);
   color: var(--cream);
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    background 0.28s ease,
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.28s ease,
+    box-shadow 0.28s ease;
 }
 
 .pager-btn:hover:not(:disabled) {
   background: rgba(243, 239, 230, 0.22);
   transform: translateY(-1px);
+}
+
+.pager-btn:active:not(:disabled) {
+  transform: scale(0.94);
 }
 
 .pager-btn:disabled {
@@ -751,20 +762,38 @@ img {
 .pager-btn svg {
   width: 1.15rem;
   height: 1.15rem;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pager-btn:hover:not(:disabled) svg {
+  transform: translateY(-1px);
 }
 
 .pager-btn-next {
   background: var(--cream);
   color: var(--ink);
+  box-shadow: 0 0 0 0 rgba(243, 239, 230, 0.35);
+  animation: pager-pulse 2.6s ease-in-out 1.8s infinite;
 }
 
 .pager-btn-next:hover:not(:disabled) {
   background: #fff;
+  animation-play-state: paused;
+}
+
+.pager-btn-next:hover:not(:disabled) svg {
+  transform: translateY(2px);
+}
+
+.pager-btn.is-pressed {
+  animation: none;
+  transform: scale(0.92);
 }
 
 .pager-label {
   margin: 0;
   max-width: 4.8rem;
+  min-height: 1.6em;
   text-align: center;
   color: rgba(243, 239, 230, 0.82);
   font-size: 0.62rem;
@@ -772,6 +801,14 @@ img {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   line-height: 1.25;
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pager-label.is-swap {
+  opacity: 0;
+  transform: translateY(4px);
 }
 
 @keyframes hint-bounce {
@@ -781,6 +818,18 @@ img {
   }
   50% {
     transform: translateY(5px);
+  }
+}
+
+@keyframes pager-pulse {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 0 0 0 rgba(243, 239, 230, 0.28);
+  }
+  50% {
+    transform: translateY(2px);
+    box-shadow: 0 0 0 7px rgba(243, 239, 230, 0);
   }
 }
 
@@ -808,7 +857,9 @@ img {
   .hero h1,
   .hero-tag,
   .hero .btn-pill,
-  .section-hint {
+  .section-hint,
+  .section-pager,
+  .pager-btn-next {
     opacity: 1;
     transform: none;
     animation: none;

@@ -193,6 +193,18 @@ const goToSection = (index) => {
   target.el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
 };
 
+let labelText = "";
+
+const setPagerLabel = (text) => {
+  if (!pagerLabel || text === labelText) return;
+  labelText = text;
+  pagerLabel.classList.add("is-swap");
+  window.setTimeout(() => {
+    pagerLabel.textContent = text;
+    pagerLabel.classList.remove("is-swap");
+  }, 160);
+};
+
 const updatePager = () => {
   if (!pagerPrev || !pagerNext || !pagerLabel || !sections.length) return;
   const index = getSectionIndex();
@@ -202,7 +214,7 @@ const updatePager = () => {
 
   pagerPrev.disabled = atStart;
   pagerNext.disabled = false;
-  pagerLabel.textContent = atEnd ? "Top" : next.label;
+  setPagerLabel(atEnd ? "Top" : next.label);
   pagerNext.setAttribute("aria-label", atEnd ? "Back to top" : `Next: ${next.label}`);
   pagerPrev.setAttribute(
     "aria-label",
@@ -210,13 +222,21 @@ const updatePager = () => {
   );
 };
 
+const flashPagerBtn = (btn) => {
+  if (!btn || reduceMotion) return;
+  btn.classList.add("is-pressed");
+  window.setTimeout(() => btn.classList.remove("is-pressed"), 220);
+};
+
 if (pagerPrev && pagerNext) {
   pagerPrev.addEventListener("click", () => {
+    flashPagerBtn(pagerPrev);
     const index = getSectionIndex();
     goToSection(Math.max(0, index - 1));
   });
 
   pagerNext.addEventListener("click", () => {
+    flashPagerBtn(pagerNext);
     const index = getSectionIndex();
     if (index >= sections.length - 1) {
       goToSection(0);
