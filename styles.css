@@ -675,7 +675,8 @@ img {
   flex: 0 0 auto;
   width: 100%;
   margin: 0;
-  padding: 0 clamp(1.5rem, 6vw, 4.5rem) 0.85rem;
+  padding: 0 clamp(1.5rem, 6vw, 4.5rem) 0.85rem 0;
+  padding-left: clamp(2.75rem, 9vw, 7rem);
   text-align: left;
   font-size: 0.95rem;
   font-weight: 400;
@@ -977,6 +978,7 @@ img {
 
   .connect-note {
     padding: 0 1.25rem 0.85rem;
+    padding-left: 2rem;
     text-align: left;
   }
 
