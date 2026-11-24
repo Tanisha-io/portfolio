@@ -607,78 +607,118 @@ img {
 
 .connect {
   position: relative;
-  padding: clamp(3rem, 8vw, 5rem) clamp(1.25rem, 4vw, 2.5rem);
-  background:
-    radial-gradient(ellipse 70% 60% at 80% 20%, rgba(197, 179, 150, 0.18), transparent 55%),
-    #141414;
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: clamp(3.5rem, 9vh, 5.5rem) clamp(1.5rem, 6vw, 4.5rem) clamp(2.5rem, 6vh, 3.5rem);
   color: var(--cream);
+  background:
+    linear-gradient(90deg, rgba(8, 6, 5, 0.72) 0%, rgba(8, 6, 5, 0.55) 45%, rgba(8, 6, 5, 0.45) 100%),
+    var(--connect, none) center / cover no-repeat,
+    #14110e;
 }
 
 .connect-inner {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 2rem;
-  max-width: var(--max);
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  width: min(1120px, 100%);
   margin: 0 auto;
-  align-items: center;
+  align-items: stretch;
+}
+
+.connect-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  padding: 0.5rem 0 0.25rem;
 }
 
 .connect-copy h2 {
-  margin: 0 0 1rem;
+  margin: 0;
+  max-width: 18ch;
   font-family: var(--serif);
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-size: clamp(2.4rem, 5.2vw, 3.75rem);
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #f7f1e4;
 }
 
 .connect-copy p {
-  margin: 0;
-  font-size: 0.9rem;
-  opacity: 0.9;
+  margin: 2.5rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: rgba(247, 241, 228, 0.92);
 }
 
 .contact-form {
   display: grid;
-  gap: 0.75rem;
-  padding: 1.25rem;
-  background: var(--cream);
-  border-radius: 0.9rem;
+  align-content: start;
+  gap: 0.85rem;
+  padding: clamp(1.35rem, 3vw, 1.75rem);
+  background: #f3efe6;
+  border-radius: 1.1rem;
   color: var(--ink);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
 }
 
 .contact-form label {
   display: grid;
-  gap: 0.3rem;
-  font-size: 0.72rem;
+  gap: 0.35rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: #1a1a1a;
 }
 
 .contact-form input,
 .contact-form textarea {
   width: 100%;
-  padding: 0.65rem 0.75rem;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0.4rem;
-  background: #fff;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgba(40, 30, 20, 0.35);
+  border-radius: 0.45rem;
+  background: #efe9dc;
+  color: #1a1a1a;
   font: inherit;
   text-transform: none;
   letter-spacing: normal;
   font-weight: 400;
 }
 
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: 2px solid rgba(168, 146, 111, 0.55);
+  outline-offset: 1px;
+}
+
+.contact-form textarea {
+  min-height: 7.5rem;
+  resize: vertical;
+}
+
 .contact-form button {
-  justify-self: start;
-  margin-top: 0.2rem;
-  padding: 0.65rem 1.4rem;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.8rem 1.4rem;
   border: 0;
-  border-radius: 0.35rem;
-  background: var(--tan-deep);
-  color: #fff;
-  font: inherit;
-  font-weight: 700;
+  border-radius: 0.55rem;
+  background: #c48a4a;
+  color: #1a120e;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.contact-form button:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
 }
 
 .honey {
@@ -688,12 +728,21 @@ img {
 .site-footer {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
   gap: 1rem 2rem;
-  padding: 1.25rem;
+  padding: 1.1rem clamp(1.5rem, 6vw, 4.5rem);
   background: #000;
-  color: #ddd;
-  font-size: 0.88rem;
+  color: #f3efe6;
+  font-size: 0.9rem;
+}
+
+.site-footer a {
+  color: #f3efe6;
+}
+
+.site-footer a:hover {
+  color: #fff;
 }
 
 .section-nav {
@@ -799,14 +848,33 @@ img {
   }
 }
 
-.site-footer a:hover {
-  color: #fff;
-}
-
 @media (max-width: 900px) {
   .about,
   .connect-inner {
     grid-template-columns: 1fr;
+  }
+
+  .connect {
+    min-height: auto;
+    padding: 3rem 1.25rem 2.5rem;
+  }
+
+  .connect-copy {
+    min-height: 0;
+    gap: 1.5rem;
+  }
+
+  .connect-copy h2 {
+    max-width: none;
+  }
+
+  .connect-copy p {
+    margin-top: 0;
+  }
+
+  .site-footer {
+    justify-content: center;
+    text-align: center;
   }
 
   .about-screen {

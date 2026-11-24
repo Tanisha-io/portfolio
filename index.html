@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=about5" />
+  <link rel="stylesheet" href="styles.css?v=connect1" />
   <style>
     .section-nav {
       background: transparent !important;
@@ -291,7 +291,11 @@
       </div>
     </section>
 
-    <section class="connect" id="connect">
+    <section
+      class="connect"
+      id="connect"
+      style="--connect: url('assets/divider-desk.jpg')"
+    >
       <div class="connect-inner">
         <div class="connect-copy">
           <h2>If something here caught your attention, I'd love to hear from you</h2>
@@ -301,9 +305,18 @@
           <input type="hidden" name="_subject" value="Portfolio contact" />
           <input type="hidden" name="_captcha" value="false" />
           <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" />
-          <label>Name<input type="text" name="name" required /></label>
-          <label>Email<input type="email" name="email" required /></label>
-          <label>Message<textarea name="message" rows="4" required></textarea></label>
+          <label>
+            Name
+            <input type="text" name="name" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" required />
+          </label>
+          <label>
+            Message
+            <textarea name="message" rows="5" required></textarea>
+          </label>
           <button type="submit">Send</button>
         </form>
       </div>
