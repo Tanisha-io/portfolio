@@ -251,21 +251,56 @@ if (prevBtn && nextBtn && sections.length) {
   window.addEventListener("resize", updateSectionNav, { passive: true });
 }
 
+const contactCard = document.getElementById("contact-card");
 const contactForm = document.getElementById("contact-form");
-if (contactForm) {
+const contactSuccess = document.getElementById("contact-success");
+const contactAgain = document.getElementById("contact-again");
+
+if (contactCard && contactForm && contactSuccess) {
   const submitBtn = contactForm.querySelector('button[type="submit"]');
-  contactForm.addEventListener("submit", () => {
+
+  const showFields = () => {
+    contactCard.classList.remove("is-sent");
+    contactSuccess.hidden = true;
+    contactForm.reset();
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send";
+    }
+    const firstField = contactForm.querySelector("input, textarea");
+    if (firstField) firstField.focus();
+  };
+
+  const showSuccess = () => {
+    contactCard.classList.add("is-sent");
+    contactSuccess.hidden = false;
+    contactForm.reset();
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send";
+    }
+  };
+
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.textContent = "Sending…";
     }
-    window.setTimeout(() => {
-      contactForm.classList.add("is-sent");
-      contactForm.reset();
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Send";
-      }
-    }, 600);
+
+    const body = new FormData(contactForm);
+    fetch(contactForm.action, {
+      method: "POST",
+      body,
+      mode: "no-cors",
+    }).finally(showSuccess);
   });
+
+  if (contactAgain) {
+    contactAgain.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      showFields();
+    });
+  }
 }
