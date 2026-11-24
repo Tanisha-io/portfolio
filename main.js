@@ -39,6 +39,25 @@ if (revealEls.length) {
   }
 }
 
+const aboutScreen = document.getElementById("about");
+if (aboutScreen) {
+  if (reduceMotion) {
+    aboutScreen.classList.add("is-inview");
+  } else {
+    const aboutIo = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          aboutScreen.classList.add("is-inview");
+          aboutIo.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.22, rootMargin: "0px 0px -10% 0px" }
+    );
+    aboutIo.observe(aboutScreen);
+  }
+}
+
 document.querySelectorAll("[data-hscroll]").forEach((scroller) => {
   const track = scroller.querySelector(".h-track");
   if (!track) return;
