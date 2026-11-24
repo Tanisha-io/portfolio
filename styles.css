@@ -281,6 +281,7 @@ img {
   display: flex;
   flex: 1 1 50%;
   flex-direction: column;
+  align-self: flex-start;
   min-width: 0;
   padding: 0.85rem 1rem;
 }
@@ -298,8 +299,8 @@ img {
 }
 
 .exp-copy {
-  margin: 0 0 1rem;
-  flex: 1;
+  margin: 0 0 1.75rem;
+  flex: 0 1 auto;
   color: #d0d0d0;
   font-size: 0.86rem;
   line-height: 1.45;
@@ -307,7 +308,6 @@ img {
 
 .exp-place {
   margin: 0;
-  margin-top: auto;
   font-size: 0.75rem;
   line-height: 1.35;
   color: #b0b0b0;
@@ -319,18 +319,24 @@ img {
 }
 
 .exp-media {
+  position: relative;
   flex: 1 1 50%;
+  align-self: stretch;
   min-width: 0;
+  min-height: 0;
   overflow: hidden;
   background: #2a2a2a;
 }
 
 .exp-media .ph,
 .exp-media img {
-  display: block;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
   width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 3;
+  height: 100%;
+  aspect-ratio: auto;
   object-fit: cover;
   border-radius: 0;
   margin: 0;
@@ -736,16 +742,21 @@ img {
   .exp-media {
     flex: 1 1 auto;
     width: 100%;
+    align-self: stretch;
   }
 
   .exp-media {
+    position: relative;
     order: -1;
+    min-height: 160px;
   }
 
   .exp-media .ph,
   .exp-media img {
-    height: auto;
-    aspect-ratio: 16 / 10;
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    aspect-ratio: auto;
   }
 
   .about {
