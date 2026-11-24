@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=connect3" />
+  <link rel="stylesheet" href="styles.css?v=connect4" />
   <style>
     .section-nav {
       background: transparent !important;
@@ -301,24 +301,19 @@
           <h2>If something here caught your attention, I'd love to hear from you</h2>
           <p>Based in India - Always open to a good conversation</p>
         </div>
-        <form class="contact-form" action="https://formsubmit.co/kaitanisha2601@gmail.com" method="POST">
-          <input type="hidden" name="_subject" value="Portfolio contact" />
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" />
-          <label>
-            <span class="sr-only">Name</span>
-            <input type="text" name="name" placeholder="Name" required />
-          </label>
-          <label>
-            <span class="sr-only">Email</span>
-            <input type="email" name="email" placeholder="Email" required />
-          </label>
-          <label>
-            <span class="sr-only">Message</span>
-            <textarea name="message" rows="5" placeholder="Message" required></textarea>
-          </label>
-          <button type="submit">Send</button>
-        </form>
+        <div class="contact-form contact-form-embed">
+          <iframe
+            title="Contact form"
+            src="https://docs.google.com/forms/d/e/1FAIpQLSf_4mkbul6yQwtdhf6yfXmTzx9txECb4edhdijzLHJd43SPbg/viewform?embedded=true"
+            loading="lazy"
+          >Loading…</iframe>
+          <a
+            class="form-fallback"
+            href="https://forms.gle/9wdmMdFsDtsnNo3F7"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Open form</a>
+        </div>
       </div>
       <footer class="site-footer">
         <a href="mailto:kaitanisha2601@gmail.com">kaitanisha2601@gmail.com</a>
