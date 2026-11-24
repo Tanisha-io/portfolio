@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=exp3" />
+  <link rel="stylesheet" href="styles.css?v=exp4" />
   <style>
     .section-nav {
       background: transparent !important;
@@ -16,6 +16,54 @@
       box-shadow: none !important;
       padding: 0 !important;
       border-radius: 0 !important;
+    }
+    .exp-card {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: stretch !important;
+    }
+    .exp-card.reverse {
+      flex-direction: row-reverse !important;
+    }
+    .exp-text,
+    .exp-media {
+      flex: 1 1 50% !important;
+      width: 50% !important;
+      max-width: 50% !important;
+      min-height: 0 !important;
+      aspect-ratio: auto !important;
+    }
+    .exp-text {
+      height: auto !important;
+    }
+    .exp-media,
+    .exp-media.placeholder {
+      align-self: stretch !important;
+      aspect-ratio: auto !important;
+    }
+    .exp-media > img {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+    @media (max-width: 900px) {
+      .exp-card,
+      .exp-card.reverse {
+        flex-direction: column !important;
+      }
+      .exp-text,
+      .exp-media {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      .exp-media,
+      .exp-media.placeholder {
+        min-height: 180px !important;
+        aspect-ratio: 16 / 10 !important;
+        order: -1 !important;
+      }
     }
   </style>
 </head>
