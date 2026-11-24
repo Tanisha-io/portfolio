@@ -283,11 +283,11 @@ img {
   flex-direction: column;
   align-self: flex-start;
   min-width: 0;
-  padding: 1.15rem 1.25rem;
+  padding: 1.5rem 1.5rem;
 }
 
 .exp-body h3 {
-  margin: 0 0 0.55rem;
+  margin: 0 0 0.75rem;
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.3;
@@ -299,7 +299,7 @@ img {
 }
 
 .exp-copy {
-  margin: 0 0 2.5rem;
+  margin: 0 0 3.5rem;
   flex: 0 1 auto;
   color: #d0d0d0;
   font-size: 0.86rem;
