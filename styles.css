@@ -696,6 +696,40 @@ img {
   box-shadow: 0 22px 48px rgba(0, 0, 0, 0.35);
 }
 
+.contact-fields {
+  display: grid;
+  gap: 0.95rem;
+}
+
+.contact-form.is-sent .contact-fields {
+  display: none;
+}
+
+.contact-success {
+  display: none;
+  margin: 0;
+  padding: 1.75rem 0.5rem;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #1a120e;
+}
+
+.contact-form.is-sent .contact-success {
+  display: block;
+}
+
+.contact-sink {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
 .contact-form label {
   display: block;
   margin: 0;

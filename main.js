@@ -250,3 +250,22 @@ if (prevBtn && nextBtn && sections.length) {
   window.addEventListener("scroll", updateSectionNav, { passive: true });
   window.addEventListener("resize", updateSectionNav, { passive: true });
 }
+
+const contactForm = document.getElementById("contact-form");
+if (contactForm) {
+  const submitBtn = contactForm.querySelector('button[type="submit"]');
+  contactForm.addEventListener("submit", () => {
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
+    }
+    window.setTimeout(() => {
+      contactForm.classList.add("is-sent");
+      contactForm.reset();
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send";
+      }
+    }, 600);
+  });
+}

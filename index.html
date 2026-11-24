@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=connect5" />
+  <link rel="stylesheet" href="styles.css?v=connect6" />
   <style>
     .section-nav {
       background: transparent !important;
@@ -303,24 +303,38 @@
         </div>
         <form
           class="contact-form"
+          id="contact-form"
           action="https://docs.google.com/forms/d/e/1FAIpQLSf_4mkbul6yQwtdhf6yfXmTzx9txECb4edhdijzLHJd43SPbg/formResponse"
           method="POST"
-          target="_blank"
+          target="contact-sink"
         >
-          <label>
-            <span class="sr-only">Name</span>
-            <input type="text" name="entry.702113122" placeholder="Name" required autocomplete="name" />
-          </label>
-          <label>
-            <span class="sr-only">Email</span>
-            <input type="email" name="entry.204292109" placeholder="Email" required autocomplete="email" />
-          </label>
-          <label>
-            <span class="sr-only">Message</span>
-            <textarea name="entry.1509677163" rows="5" placeholder="Message" required></textarea>
-          </label>
-          <button type="submit">Send</button>
+          <div class="contact-fields">
+            <label>
+              <span class="sr-only">Name</span>
+              <input type="text" name="entry.702113122" placeholder="Name" required autocomplete="name" />
+            </label>
+            <label>
+              <span class="sr-only">Email</span>
+              <input type="email" name="entry.204292109" placeholder="Email" required autocomplete="email" />
+            </label>
+            <label>
+              <span class="sr-only">Message</span>
+              <textarea name="entry.1509677163" rows="5" placeholder="Message" required></textarea>
+            </label>
+            <button type="submit">Send</button>
+          </div>
+          <p class="contact-success" id="contact-success" role="status" aria-live="polite">
+            Sent — thanks for reaching out. I'll get back to you soon.
+          </p>
         </form>
+        <iframe
+          class="contact-sink"
+          name="contact-sink"
+          id="contact-sink"
+          title="Form submission"
+          tabindex="-1"
+          aria-hidden="true"
+        ></iframe>
       </div>
       <footer class="site-footer">
         <a href="mailto:kaitanisha2601@gmail.com">kaitanisha2601@gmail.com</a>
@@ -347,6 +361,6 @@
     </button>
   </div>
 
-  <script src="main.js?v=aboutenter2"></script>
+  <script src="main.js?v=contactsent1"></script>
 </body>
 </html>
