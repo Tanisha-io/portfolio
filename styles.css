@@ -207,12 +207,13 @@ img {
 
 .about {
   display: grid;
-  grid-template-columns: 0.7fr 1.3fr;
-  gap: 1rem 2.5rem;
-  flex: 1 1 auto;
+  grid-template-columns: minmax(10rem, 0.85fr) minmax(0, 1.35fr);
+  gap: 1.25rem 3.5rem;
+  flex: 1 1 52%;
   align-content: center;
+  align-items: center;
   min-height: 0;
-  padding: clamp(1.5rem, 4vh, 3rem) clamp(1.25rem, 5vw, 4rem);
+  padding: clamp(2rem, 5vh, 3.5rem) clamp(1.5rem, 6vw, 5rem) clamp(1.25rem, 3vh, 2rem);
   background: var(--white);
   color: var(--ink);
 }
@@ -224,39 +225,47 @@ img {
 .about h2 {
   margin: 0;
   font-family: var(--serif);
-  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  font-size: clamp(3.4rem, 8vw, 5.4rem);
   font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
 }
 
 .about-copy {
-  max-width: 38rem;
+  max-width: 40rem;
+  justify-self: end;
+  text-align: right;
 }
 
 .lede {
-  margin: 0 0 0.75rem;
-  font-size: 1.05rem;
+  margin: 0 0 1rem;
+  font-size: clamp(1.05rem, 1.7vw, 1.25rem);
   font-weight: 500;
+  line-height: 1.55;
 }
 
 .about-copy p:last-child {
   margin: 0;
-  color: #444;
+  color: #333;
+  font-size: clamp(1rem, 1.55vw, 1.15rem);
+  line-height: 1.6;
 }
 
 .about blockquote {
   grid-column: 1 / -1;
-  margin: 1rem auto 0;
-  max-width: 46rem;
+  margin: 1.75rem auto 0;
+  max-width: 48rem;
   text-align: center;
   font-family: var(--serif);
-  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  font-size: clamp(1.2rem, 2.4vw, 1.65rem);
   font-style: italic;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .photo-break {
-  flex: 0 0 clamp(34vh, 42vh, 46vh);
+  flex: 1 1 48%;
   min-height: 0;
+  width: 100%;
   background: var(--break) center / cover no-repeat;
 }
 
@@ -749,17 +758,33 @@ img {
   }
 
   .about-screen {
-    height: auto;
-    min-height: 100vh;
-    min-height: 100dvh;
+    height: 100vh;
+    height: 100dvh;
   }
 
   .about {
-    padding: 2rem 1.25rem 1.5rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.75rem 1.25rem 1rem;
+    align-content: center;
+  }
+
+  .about h2 {
+    font-size: clamp(2.8rem, 12vw, 3.6rem);
+  }
+
+  .about-copy {
+    justify-self: stretch;
+    text-align: left;
+    max-width: none;
+  }
+
+  .about blockquote {
+    margin-top: 1.25rem;
   }
 
   .photo-break {
-    flex: 0 0 36vh;
+    flex: 1 1 42%;
   }
 
   .exp-card,
