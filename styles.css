@@ -192,20 +192,29 @@ img {
   }
 }
 
+.about-screen {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
+  margin-top: -1px;
+  background: var(--white);
+  scroll-margin-top: 0;
+  overflow: hidden;
+}
+
 .about {
   display: grid;
   grid-template-columns: 0.7fr 1.3fr;
+  gap: 1rem 2.5rem;
+  flex: 1 1 auto;
   align-content: center;
-  align-items: start;
-  gap: 1.5rem 3rem;
-  min-height: 100vh;
-  min-height: 100dvh;
-  padding: clamp(3rem, 8vh, 5rem) clamp(1.25rem, 5vw, 4rem);
-  margin-top: -1px;
+  min-height: 0;
+  padding: clamp(1.5rem, 4vh, 3rem) clamp(1.25rem, 5vw, 4rem);
   background: var(--white);
   color: var(--ink);
-  scroll-margin-top: 0;
-  box-sizing: border-box;
 }
 
 #connect {
@@ -215,7 +224,7 @@ img {
 .about h2 {
   margin: 0;
   font-family: var(--serif);
-  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
   font-weight: 600;
 }
 
@@ -224,7 +233,7 @@ img {
 }
 
 .lede {
-  margin: 0 0 1rem;
+  margin: 0 0 0.75rem;
   font-size: 1.05rem;
   font-weight: 500;
 }
@@ -236,17 +245,18 @@ img {
 
 .about blockquote {
   grid-column: 1 / -1;
-  margin: clamp(1.5rem, 4vh, 2.5rem) auto 0;
+  margin: 1rem auto 0;
   max-width: 46rem;
   text-align: center;
   font-family: var(--serif);
-  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
   font-style: italic;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
 .photo-break {
-  min-height: clamp(220px, 38vw, 420px);
+  flex: 0 0 clamp(34vh, 42vh, 46vh);
+  min-height: 0;
   background: var(--break) center / cover no-repeat;
 }
 
@@ -736,6 +746,20 @@ img {
   .about,
   .connect-inner {
     grid-template-columns: 1fr;
+  }
+
+  .about-screen {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .about {
+    padding: 2rem 1.25rem 1.5rem;
+  }
+
+  .photo-break {
+    flex: 0 0 36vh;
   }
 
   .exp-card,
