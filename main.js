@@ -52,7 +52,7 @@ if (aboutScreen) {
           aboutIo.unobserve(entry.target);
         });
       },
-      { threshold: 0.22, rootMargin: "0px 0px -10% 0px" }
+      { threshold: 0.12, rootMargin: "0px 0px -4% 0px" }
     );
     aboutIo.observe(aboutScreen);
   }

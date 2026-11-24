@@ -19,6 +19,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
 }
 
 body {
@@ -109,6 +110,8 @@ img {
   overflow: hidden;
   color: var(--cream);
   background: #1a120e;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 .hero::after {
@@ -118,12 +121,11 @@ img {
   right: 0;
   bottom: 0;
   z-index: 2;
-  height: clamp(3rem, 8vh, 5.5rem);
+  height: 2.25rem;
   pointer-events: none;
   background: linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.55) 55%,
     #ffffff 100%
   );
 }
@@ -219,6 +221,8 @@ img {
   margin-top: -1px;
   background: var(--white);
   scroll-margin-top: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   overflow: hidden;
 }
 
@@ -240,34 +244,30 @@ img {
 .about-screen .about blockquote,
 .about-screen .photo-break {
   opacity: 0;
-  transform: translateY(22px);
+  transform: translateY(12px);
   transition:
-    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.38s ease,
+    transform 0.38s ease;
 }
 
-.about-screen.is-inview .about h2 {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.08s;
-}
-
-.about-screen.is-inview .about-copy {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.22s;
-}
-
-.about-screen.is-inview .about blockquote {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.36s;
-}
-
+.about-screen.is-inview .about h2,
+.about-screen.is-inview .about-copy,
+.about-screen.is-inview .about blockquote,
 .about-screen.is-inview .photo-break {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.48s;
+}
+
+.about-screen.is-inview .about-copy {
+  transition-delay: 0.04s;
+}
+
+.about-screen.is-inview .about blockquote {
+  transition-delay: 0.08s;
+}
+
+.about-screen.is-inview .photo-break {
+  transition-delay: 0.1s;
 }
 
 #connect {
@@ -936,6 +936,7 @@ img {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+    scroll-snap-type: none;
   }
 
   .site-header,
