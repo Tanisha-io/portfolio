@@ -25,17 +25,18 @@
     .exp-card.reverse {
       flex-direction: row-reverse !important;
     }
-    .exp-text {
+    .exp-text,
+    .exp-media {
       flex: 1 1 50% !important;
       width: 50% !important;
       max-width: 50% !important;
+    }
+    .exp-text {
       justify-content: center !important;
+      padding: clamp(1.25rem, 2.8vw, 1.75rem) !important;
     }
     .exp-media,
     .exp-media.placeholder {
-      flex: 0 0 50% !important;
-      width: 50% !important;
-      max-width: 50% !important;
       aspect-ratio: 1 / 1 !important;
     }
     .exp-media > img {
@@ -57,7 +58,7 @@
       }
       .exp-media,
       .exp-media.placeholder {
-        flex-basis: auto !important;
+        min-height: 180px !important;
         aspect-ratio: 1 / 1 !important;
         order: -1 !important;
       }

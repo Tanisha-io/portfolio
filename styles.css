@@ -324,16 +324,16 @@ img {
 
 .exp-media {
   position: relative;
-  flex: 0 0 50%;
+  flex: 1 1 50%;
   width: 50%;
   max-width: 50%;
+  min-height: 0;
   align-self: stretch;
   border-radius: 0;
   overflow: hidden;
   background: #2a2a2a;
   border: 0;
   aspect-ratio: 1 / 1;
-  min-height: 0;
 }
 
 .exp-media > img {
@@ -758,10 +758,8 @@ img {
 
   .exp-media,
   .exp-media.placeholder {
-    flex-basis: auto;
-    width: 100%;
-    max-width: 100%;
-    aspect-ratio: 1 / 1;
+    min-height: 180px;
+    aspect-ratio: 16 / 10;
     order: -1;
   }
 
