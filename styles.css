@@ -708,17 +708,40 @@ img {
 .contact-success {
   display: none;
   margin: 0;
-  padding: 1.75rem 0.5rem;
+  padding: 1.75rem 0.5rem 1.25rem;
   text-align: center;
-  font-family: var(--serif);
-  font-size: 1.2rem;
-  font-weight: 600;
-  line-height: 1.45;
   color: #1a120e;
 }
 
 .contact-form.is-sent .contact-success {
-  display: block;
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+}
+
+.contact-success p {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.contact-again {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #1a120e;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  cursor: pointer;
+}
+
+.contact-again:hover {
+  color: #ce8d51;
 }
 
 .contact-sink {

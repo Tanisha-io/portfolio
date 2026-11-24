@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=connect6" />
+  <link rel="stylesheet" href="styles.css?v=connect7" />
   <style>
     .section-nav {
       background: transparent !important;
@@ -323,9 +323,12 @@
             </label>
             <button type="submit">Send</button>
           </div>
-          <p class="contact-success" id="contact-success" role="status" aria-live="polite">
-            Sent — thanks for reaching out. I'll get back to you soon.
-          </p>
+          <div class="contact-success" id="contact-success" role="status" aria-live="polite">
+            <p>Sent — thanks for reaching out</p>
+            <button type="button" class="contact-again" id="contact-again">
+              Submit another response
+            </button>
+          </div>
         </form>
         <iframe
           class="contact-sink"
@@ -361,6 +364,6 @@
     </button>
   </div>
 
-  <script src="main.js?v=contactsent1"></script>
+  <script src="main.js?v=contactsent2"></script>
 </body>
 </html>
