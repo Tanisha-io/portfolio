@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=exp5" />
+  <link rel="stylesheet" href="styles.css?v=exp6" />
   <style>
     .section-nav {
       background: transparent !important;
@@ -21,6 +21,8 @@
       display: flex !important;
       flex-direction: row !important;
       align-items: stretch !important;
+      margin: 0 auto 1.5rem !important;
+      background: #2a2a2a !important;
     }
     .exp-card.reverse {
       flex-direction: row-reverse !important;
@@ -32,8 +34,20 @@
       max-width: 50% !important;
     }
     .exp-text {
-      justify-content: center !important;
-      padding: clamp(1.25rem, 2.8vw, 1.75rem) !important;
+      justify-content: flex-start !important;
+      padding: clamp(1.35rem, 3vw, 1.85rem) !important;
+    }
+    .exp-text h3 {
+      margin: 0 0 0.55rem !important;
+    }
+    .exp-text p {
+      margin: 0 !important;
+      line-height: 1.5 !important;
+    }
+    .exp-place {
+      margin-top: auto !important;
+      padding-top: 1rem !important;
+      text-align: right !important;
     }
     .exp-media,
     .exp-media.placeholder {
