@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=exp7" />
+  <link rel="stylesheet" href="styles.css?v=exp8" />
   <style>
     .section-nav {
       background: transparent !important;
@@ -16,69 +16,6 @@
       box-shadow: none !important;
       padding: 0 !important;
       border-radius: 0 !important;
-    }
-    .exp-card {
-      display: flex !important;
-      flex-direction: row !important;
-      align-items: stretch !important;
-      margin: 0 auto 1.5rem !important;
-      background: #2a2a2a !important;
-      height: fit-content !important;
-    }
-    .exp-card.reverse {
-      flex-direction: row-reverse !important;
-    }
-    .exp-text,
-    .exp-media {
-      flex: 1 1 50% !important;
-      width: 50% !important;
-      max-width: 50% !important;
-      min-height: 0 !important;
-      aspect-ratio: auto !important;
-    }
-    .exp-text {
-      height: auto !important;
-      justify-content: flex-start !important;
-      padding: clamp(1.1rem, 2.4vw, 1.5rem) !important;
-    }
-    .exp-text h3,
-    .exp-text p {
-      margin: 0 !important;
-    }
-    .exp-place {
-      margin-top: 0.35rem !important;
-      padding-top: 0 !important;
-      text-align: right !important;
-    }
-    .exp-media,
-    .exp-media.placeholder {
-      align-self: stretch !important;
-      aspect-ratio: auto !important;
-      height: auto !important;
-    }
-    .exp-media > img {
-      position: absolute !important;
-      inset: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover !important;
-    }
-    @media (max-width: 900px) {
-      .exp-card,
-      .exp-card.reverse {
-        flex-direction: column !important;
-      }
-      .exp-text,
-      .exp-media {
-        width: 100% !important;
-        max-width: 100% !important;
-      }
-      .exp-media,
-      .exp-media.placeholder {
-        min-height: 160px !important;
-        aspect-ratio: 16 / 10 !important;
-        order: -1 !important;
-      }
     }
   </style>
 </head>
@@ -136,9 +73,9 @@
       <h2>Work Experience</h2>
 
       <article class="exp-card reveal">
-        <div class="exp-text">
+        <div class="exp-body">
           <h3>PayU <span>| Associate Data Engineer</span></h3>
-          <p>
+          <p class="exp-copy">
             Working at the intersection of data engineering and fintech,
             building scalable data workflows and automation systems.
             Migrated workflows across serverless and application clusters
@@ -149,13 +86,15 @@
           </p>
           <p class="exp-place">Gurgaon, India · June 2025 – Present</p>
         </div>
-        <div class="exp-media placeholder" role="img" aria-label="PayU photo placeholder">Photo</div>
+        <div class="exp-media">
+          <div class="ph" role="img" aria-label="PayU photo placeholder">Photo</div>
+        </div>
       </article>
 
       <article class="exp-card reverse reveal">
-        <div class="exp-text">
+        <div class="exp-body">
           <h3>Datsol Solutions <span>| Co-founder</span></h3>
-          <p>
+          <p class="exp-copy">
             Co-founded student-led startup translating ideas into
             viable products. Spearheaded development and
             stakeholder relationships, securing projects worth ₹14.93
@@ -165,13 +104,15 @@
           </p>
           <p class="exp-place">IIT KGP · Jan 2024 – May 2025</p>
         </div>
-        <div class="exp-media placeholder" role="img" aria-label="Datsol photo placeholder">Photo</div>
+        <div class="exp-media">
+          <div class="ph" role="img" aria-label="Datsol photo placeholder">Photo</div>
+        </div>
       </article>
 
       <article class="exp-card reveal">
-        <div class="exp-text">
+        <div class="exp-body">
           <h3>Mastercard <span>| Product Development Intern</span></h3>
-          <p>
+          <p class="exp-copy">
             Contributed to payment security and fraud
             intelligence initiatives, delivering a chargeback alert
             dashboard to improve operational visibility and
@@ -182,13 +123,15 @@
           <p class="exp-place">Pune, India · May 2024 – July 2024</p>
           <p class="exp-place">Atlanta, USA · Remote · May 2023 – Oct 2023</p>
         </div>
-        <div class="exp-media placeholder" role="img" aria-label="Mastercard photo placeholder">Photo</div>
+        <div class="exp-media">
+          <div class="ph" role="img" aria-label="Mastercard photo placeholder">Photo</div>
+        </div>
       </article>
 
       <article class="exp-card reverse reveal">
-        <div class="exp-text">
+        <div class="exp-body">
           <h3>EVVA Health <span>| Technical Product Manager</span></h3>
-          <p>
+          <p class="exp-copy">
             Worked on technology research and product architecture for
             an AI-powered healthcare assistant. Analysed 200+ patents
             to identify technology gaps and emerging opportunities,
@@ -198,7 +141,9 @@
           </p>
           <p class="exp-place">IIT KGP · Jan 2024 – May 2025</p>
         </div>
-        <div class="exp-media placeholder" role="img" aria-label="EVVA Health photo placeholder">Photo</div>
+        <div class="exp-media">
+          <div class="ph" role="img" aria-label="EVVA Health photo placeholder">Photo</div>
+        </div>
       </article>
     </section>
 

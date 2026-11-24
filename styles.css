@@ -266,93 +266,74 @@ img {
   flex-direction: row;
   align-items: stretch;
   max-width: var(--max);
-  margin: 0 auto 1.5rem;
+  margin: 0 auto 1.25rem;
   overflow: hidden;
-  background: #2a2a2a;
-  border-radius: 0.25rem;
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.9rem;
 }
 
 .exp-card.reverse {
   flex-direction: row-reverse;
-  direction: ltr;
 }
 
-.exp-text {
+.exp-body {
   display: flex;
   flex: 1 1 50%;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 0.45rem;
-  align-self: stretch;
-  width: 50%;
-  max-width: 50%;
-  padding: clamp(1.1rem, 2.4vw, 1.5rem);
-  background: transparent;
-  border: 0;
-  border-radius: 0;
+  min-width: 0;
+  padding: 0.85rem 1rem;
 }
 
-.exp-text h3 {
-  margin: 0;
-  font-size: 1.02rem;
+.exp-body h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.3;
 }
 
-.exp-text h3 span {
+.exp-body h3 span {
   font-weight: 500;
-  color: #cfcfcf;
+  color: #b0b0b0;
 }
 
-.exp-text p {
-  margin: 0;
+.exp-copy {
+  margin: 0 0 1rem;
+  flex: 1;
   color: #d0d0d0;
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   line-height: 1.45;
 }
 
 .exp-place {
-  margin: 0.35rem 0 0 !important;
-  padding-top: 0;
-  font-size: 0.78rem !important;
-  line-height: 1.35 !important;
-  color: #a3a3a3 !important;
+  margin: 0;
+  margin-top: auto;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: #b0b0b0;
   text-align: right;
 }
 
 .exp-place + .exp-place {
-  margin-top: 0.15rem !important;
+  margin-top: 0.2rem;
 }
 
 .exp-media {
-  position: relative;
   flex: 1 1 50%;
-  width: 50%;
-  max-width: 50%;
-  min-height: 0;
-  align-self: stretch;
-  border-radius: 0;
+  min-width: 0;
   overflow: hidden;
-  background: #222;
-  border: 0;
-  aspect-ratio: auto;
+  background: #2a2a2a;
 }
 
-.exp-media > img {
-  position: absolute;
-  inset: 0;
+.exp-media .ph,
+.exp-media img {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
-  object-position: center;
-}
-
-.exp-media.placeholder {
-  display: grid;
-  place-items: center;
-  aspect-ratio: auto;
-  min-height: 0;
+  border-radius: 0;
+  margin: 0;
 }
 
 .placeholder,
@@ -751,18 +732,20 @@ img {
     flex-direction: column;
   }
 
-  .exp-text,
-  .exp-media,
-  .exp-media.placeholder {
+  .exp-body,
+  .exp-media {
+    flex: 1 1 auto;
     width: 100%;
-    max-width: 100%;
   }
 
-  .exp-media,
-  .exp-media.placeholder {
-    min-height: 180px;
-    aspect-ratio: 16 / 10;
+  .exp-media {
     order: -1;
+  }
+
+  .exp-media .ph,
+  .exp-media img {
+    height: auto;
+    aspect-ratio: 16 / 10;
   }
 
   .about {
