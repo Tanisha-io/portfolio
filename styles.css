@@ -286,7 +286,7 @@ img {
   flex-direction: column;
   justify-content: flex-start;
   gap: 0.45rem;
-  height: fit-content;
+  align-self: start;
   padding: clamp(1rem, 2.2vw, 1.35rem);
   background: transparent;
   border: 0;
@@ -327,18 +327,28 @@ img {
 .exp-media {
   position: relative;
   min-height: 0;
-  height: auto;
+  height: 100%;
   align-self: stretch;
   border-radius: 0;
   overflow: hidden;
   background: #2a2a2a;
   border: 0;
+  aspect-ratio: auto;
 }
 
-.exp-media > img,
+.exp-media > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .exp-media.placeholder {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  inset: auto;
+  display: grid;
+  place-items: center;
   width: 100%;
   height: 100%;
   min-height: 0;
@@ -366,10 +376,6 @@ img {
   text-transform: uppercase;
 }
 
-.exp-media.placeholder {
-  aspect-ratio: auto;
-  min-height: 0;
-}
 
 .ph {
   aspect-ratio: 16 / 10;
@@ -746,17 +752,16 @@ img {
     direction: ltr;
   }
 
-  .exp-media {
-    position: relative;
-    min-height: 180px;
-    aspect-ratio: 16 / 10;
-    order: -1;
+  .exp-text {
+    align-self: stretch;
   }
 
-  .exp-media > img,
+  .exp-media,
   .exp-media.placeholder {
-    position: absolute;
-    inset: 0;
+    min-height: 180px;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    order: -1;
   }
 
   .about {
