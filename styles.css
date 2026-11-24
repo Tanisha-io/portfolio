@@ -281,11 +281,11 @@ img {
   display: flex;
   flex: 1 1 50%;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 0.45rem;
+  justify-content: center;
+  gap: 0.55rem;
   width: 50%;
   max-width: 50%;
-  padding: clamp(1rem, 2.2vw, 1.35rem);
+  padding: clamp(1.25rem, 2.8vw, 1.75rem);
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -324,16 +324,16 @@ img {
 
 .exp-media {
   position: relative;
-  flex: 1 1 50%;
+  flex: 0 0 50%;
   width: 50%;
   max-width: 50%;
-  min-height: 0;
   align-self: stretch;
   border-radius: 0;
   overflow: hidden;
   background: #2a2a2a;
   border: 0;
-  aspect-ratio: auto;
+  aspect-ratio: 1 / 1;
+  min-height: 0;
 }
 
 .exp-media > img {
@@ -349,7 +349,7 @@ img {
 .exp-media.placeholder {
   display: grid;
   place-items: center;
-  aspect-ratio: auto;
+  aspect-ratio: 1 / 1;
   min-height: 0;
 }
 
@@ -758,8 +758,10 @@ img {
 
   .exp-media,
   .exp-media.placeholder {
-    min-height: 180px;
-    aspect-ratio: 16 / 10;
+    flex-basis: auto;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
     order: -1;
   }
 
