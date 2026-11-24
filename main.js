@@ -254,7 +254,6 @@ if (prevBtn && nextBtn && sections.length) {
 const contactForm = document.getElementById("contact-form");
 if (contactForm) {
   const submitBtn = contactForm.querySelector('button[type="submit"]');
-  const againBtn = document.getElementById("contact-again");
   contactForm.addEventListener("submit", () => {
     if (submitBtn) {
       submitBtn.disabled = true;
@@ -269,12 +268,4 @@ if (contactForm) {
       }
     }, 600);
   });
-  if (againBtn) {
-    againBtn.addEventListener("click", () => {
-      contactForm.classList.remove("is-sent");
-      contactForm.reset();
-      const firstField = contactForm.querySelector("input, textarea");
-      if (firstField) firstField.focus();
-    });
-  }
 }

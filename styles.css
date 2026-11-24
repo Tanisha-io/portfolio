@@ -696,52 +696,19 @@ img {
   box-shadow: 0 22px 48px rgba(0, 0, 0, 0.35);
 }
 
-.contact-fields {
-  display: grid;
-  gap: 0.95rem;
-}
-
-.contact-form.is-sent .contact-fields {
-  display: none;
-}
-
 .contact-success {
   display: none;
-  margin: 0;
-  padding: 1.75rem 0.5rem 1.25rem;
+  margin: 0.15rem 0 0;
   text-align: center;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
   color: #1a120e;
 }
 
 .contact-form.is-sent .contact-success {
-  display: grid;
-  gap: 1rem;
-  justify-items: center;
-}
-
-.contact-success p {
-  margin: 0;
-  font-family: var(--serif);
-  font-size: 1.2rem;
-  font-weight: 600;
-  line-height: 1.45;
-}
-
-.contact-again {
-  padding: 0;
-  border: 0;
-  background: none;
-  color: #1a120e;
-  font: inherit;
-  font-size: 0.88rem;
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
-  cursor: pointer;
-}
-
-.contact-again:hover {
-  color: #ce8d51;
+  display: block;
 }
 
 .contact-sink {
