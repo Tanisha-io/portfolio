@@ -1,7 +1,8 @@
 (function () {
   const PDFJS_SRC = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
   const PDFJS_WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-  const URL_RE = /(https?:\/\/[^\s<>"'）】]+|www\.[^\s<>"'）】]+|mailto:[^\s<>"'）】]+)/i;
+  const URL_RE =
+    /(https?:\/\/[^\s<>"'）】]+|www\.[^\s<>"'）】]+|mailto:[^\s<>"'）】]+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/i;
 
   const viewer = document.createElement("div");
   viewer.className = "viewer";
@@ -82,6 +83,9 @@
       .trim();
     if (/^mailto:/i.test(cleaned) || /^https?:\/\//i.test(cleaned)) return cleaned;
     if (/^www\./i.test(cleaned)) return "https://" + cleaned;
+    if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(cleaned)) {
+      return "mailto:" + cleaned;
+    }
     return "";
   }
 
@@ -103,6 +107,8 @@
   function appendLink(layer, href, left, top, width, height) {
     const safeHref = normalizeHref(href);
     if (!safeHref || width < 2 || height < 2) return;
+    const padX = 4;
+    const padY = 3;
     const link = document.createElement("a");
     link.className = "viewer-link";
     link.href = safeHref;
@@ -110,10 +116,10 @@
     link.rel = "noopener noreferrer";
     link.title = safeHref;
     link.setAttribute("aria-label", "Open " + safeHref);
-    link.style.left = Math.max(0, left) + "px";
-    link.style.top = Math.max(0, top) + "px";
-    link.style.width = width + "px";
-    link.style.height = Math.max(height, 12) + "px";
+    link.style.left = Math.max(0, left - padX) + "px";
+    link.style.top = Math.max(0, top - padY) + "px";
+    link.style.width = width + padX * 2 + "px";
+    link.style.height = Math.max(height, 14) + padY * 2 + "px";
     link.addEventListener("click", function (event) {
       openExternal(safeHref, event);
     });
