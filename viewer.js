@@ -78,40 +78,87 @@
     if (!ann) return "";
     if (ann.url) return ann.url;
     if (ann.unsafeUrl) return ann.unsafeUrl;
-    if (ann.action && typeof ann.action === "string" && /^https?:\/\//i.test(ann.action)) {
+    if (ann.action && typeof ann.action === "string" && /^(https?:\/\/|mailto:)/i.test(ann.action)) {
       return ann.action;
     }
     return "";
   }
 
-  function addLinkLayer(page, holder, cssViewport, token) {
+  function normalizeHref(raw) {
+    if (!raw) return "";
+    const cleaned = String(raw).replace(/[),.;]+$/g, "").trim();
+    if (/^mailto:/i.test(cleaned) || /^https?:\/\//i.test(cleaned)) return cleaned;
+    if (/^www\./i.test(cleaned)) return "https://" + cleaned;
+    return "";
+  }
+
+  function appendLink(layer, href, left, top, width, height) {
+    const safeHref = normalizeHref(href);
+    if (!safeHref || width < 1 || height < 1) return;
+    const link = document.createElement("a");
+    link.className = "viewer-link";
+    link.href = safeHref;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.title = safeHref;
+    link.setAttribute("aria-label", safeHref);
+    link.style.left = left + "px";
+    link.style.top = top + "px";
+    link.style.width = width + "px";
+    link.style.height = height + "px";
+    layer.appendChild(link);
+  }
+
+  function addAnnotationLinks(page, layer, cssViewport) {
     return page.getAnnotations({ intent: "display" }).then(function (annotations) {
-      if (token !== session) return;
-      const layer = document.createElement("div");
-      layer.className = "viewer-links";
       annotations.forEach(function (ann) {
         if (!ann || ann.subtype !== "Link") return;
         const href = resolveAnnotationUrl(ann);
         if (!href) return;
         const rect = cssViewport.convertToViewportRectangle(ann.rect);
-        const left = Math.min(rect[0], rect[2]);
-        const top = Math.min(rect[1], rect[3]);
-        const width = Math.abs(rect[0] - rect[2]);
-        const height = Math.abs(rect[1] - rect[3]);
-        if (width < 1 || height < 1) return;
-        const link = document.createElement("a");
-        link.className = "viewer-link";
-        link.href = href;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.title = href;
-        link.setAttribute("aria-label", href);
-        link.style.left = left + "px";
-        link.style.top = top + "px";
-        link.style.width = width + "px";
-        link.style.height = height + "px";
-        layer.appendChild(link);
+        appendLink(
+          layer,
+          href,
+          Math.min(rect[0], rect[2]),
+          Math.min(rect[1], rect[3]),
+          Math.abs(rect[0] - rect[2]),
+          Math.abs(rect[1] - rect[3])
+        );
       });
+    });
+  }
+
+  function addTextLinks(page, layer, cssViewport) {
+    return page.getTextContent().then(function (textContent) {
+      const util = window.pdfjsLib && window.pdfjsLib.Util;
+      if (!util) return;
+      textContent.items.forEach(function (item) {
+        if (!item || !item.str) return;
+        const match = String(item.str).match(/(https?:\/\/[^\s<>"']+|www\.[^\s<>"']+|mailto:[^\s<>"']+)/i);
+        if (!match) return;
+        const transform = util.transform(cssViewport.transform, item.transform);
+        const fontHeight = Math.hypot(transform[2], transform[3]) || 10;
+        const width = typeof item.width === "number" ? item.width * cssViewport.scale : match[0].length * fontHeight * 0.5;
+        appendLink(
+          layer,
+          match[0],
+          transform[4],
+          transform[5] - fontHeight,
+          Math.max(width, fontHeight * 2),
+          Math.max(fontHeight * 1.2, 10)
+        );
+      });
+    });
+  }
+
+  function addLinkLayer(page, holder, cssViewport, token) {
+    const layer = document.createElement("div");
+    layer.className = "viewer-links";
+    return Promise.all([
+      addAnnotationLinks(page, layer, cssViewport),
+      addTextLinks(page, layer, cssViewport)
+    ]).then(function () {
+      if (token !== session) return;
       if (layer.childNodes.length) holder.appendChild(layer);
     });
   }
