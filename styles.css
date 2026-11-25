@@ -628,9 +628,16 @@ img {
   color: #d0d0d0;
 }
 
-.btn-view {
-  align-self: flex-start;
+.project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
   margin-top: auto;
+}
+
+.btn-view {
+  display: inline-flex;
+  align-items: center;
   padding: 0.55rem 1rem;
   border-radius: 999px;
   background: #d9d9d9;
