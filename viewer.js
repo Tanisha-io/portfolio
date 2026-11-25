@@ -1,6 +1,7 @@
 (function () {
   const PDFJS_SRC = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
   const PDFJS_WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  const URL_RE = /(https?:\/\/[^\s<>"'）】]+|www\.[^\s<>"'）】]+|mailto:[^\s<>"'）】]+)/i;
 
   const viewer = document.createElement("div");
   viewer.className = "viewer";
@@ -74,39 +75,57 @@
     pages.appendChild(status);
   }
 
-  function resolveAnnotationUrl(ann) {
-    if (!ann) return "";
-    if (ann.url) return ann.url;
-    if (ann.unsafeUrl) return ann.unsafeUrl;
-    if (ann.action && typeof ann.action === "string" && /^(https?:\/\/|mailto:)/i.test(ann.action)) {
-      return ann.action;
-    }
-    return "";
-  }
-
   function normalizeHref(raw) {
     if (!raw) return "";
-    const cleaned = String(raw).replace(/[),.;]+$/g, "").trim();
+    const cleaned = String(raw)
+      .replace(/[),.;\]】）]+$/g, "")
+      .trim();
     if (/^mailto:/i.test(cleaned) || /^https?:\/\//i.test(cleaned)) return cleaned;
     if (/^www\./i.test(cleaned)) return "https://" + cleaned;
     return "";
   }
 
+  function openExternal(href, event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    const safeHref = normalizeHref(href);
+    if (!safeHref) return;
+    if (/^mailto:/i.test(safeHref)) {
+      window.location.href = safeHref;
+      return;
+    }
+    const opened = window.open(safeHref, "_blank", "noopener,noreferrer");
+    if (!opened) window.location.assign(safeHref);
+  }
+
   function appendLink(layer, href, left, top, width, height) {
     const safeHref = normalizeHref(href);
-    if (!safeHref || width < 1 || height < 1) return;
+    if (!safeHref || width < 2 || height < 2) return;
     const link = document.createElement("a");
     link.className = "viewer-link";
     link.href = safeHref;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
     link.title = safeHref;
-    link.setAttribute("aria-label", safeHref);
-    link.style.left = left + "px";
-    link.style.top = top + "px";
+    link.setAttribute("aria-label", "Open " + safeHref);
+    link.style.left = Math.max(0, left) + "px";
+    link.style.top = Math.max(0, top) + "px";
     link.style.width = width + "px";
-    link.style.height = height + "px";
+    link.style.height = Math.max(height, 12) + "px";
+    link.addEventListener("click", function (event) {
+      openExternal(safeHref, event);
+    });
     layer.appendChild(link);
+  }
+
+  function resolveAnnotationUrl(ann) {
+    if (!ann) return "";
+    if (ann.url) return ann.url;
+    if (ann.unsafeUrl) return ann.unsafeUrl;
+    if (typeof ann.action === "string") return ann.action;
+    return "";
   }
 
   function addAnnotationLinks(page, layer, cssViewport) {
@@ -114,7 +133,7 @@
       annotations.forEach(function (ann) {
         if (!ann || ann.subtype !== "Link") return;
         const href = resolveAnnotationUrl(ann);
-        if (!href) return;
+        if (!normalizeHref(href)) return;
         const rect = cssViewport.convertToViewportRectangle(ann.rect);
         appendLink(
           layer,
@@ -130,23 +149,45 @@
 
   function addTextLinks(page, layer, cssViewport) {
     return page.getTextContent().then(function (textContent) {
-      const util = window.pdfjsLib && window.pdfjsLib.Util;
-      if (!util) return;
-      textContent.items.forEach(function (item) {
+      const items = textContent.items || [];
+      const runs = [];
+      let current = null;
+
+      items.forEach(function (item) {
         if (!item || !item.str) return;
-        const match = String(item.str).match(/(https?:\/\/[^\s<>"']+|www\.[^\s<>"']+|mailto:[^\s<>"']+)/i);
+        const x = item.transform[4];
+        const y = item.transform[5];
+        if (
+          current &&
+          Math.abs(current.y - y) < 1.5 &&
+          x <= current.endX + Math.max(current.fontSize * 0.8, 4)
+        ) {
+          current.text += item.str;
+          current.endX = x + (item.width || 0);
+          current.width = current.endX - current.x;
+        } else {
+          current = {
+            text: item.str,
+            x: x,
+            y: y,
+            endX: x + (item.width || 0),
+            width: item.width || 0,
+            fontSize: Math.max(Math.hypot(item.transform[2], item.transform[3]), 8)
+          };
+          runs.push(current);
+        }
+      });
+
+      runs.forEach(function (run) {
+        const match = String(run.text).match(URL_RE);
         if (!match) return;
-        const transform = util.transform(cssViewport.transform, item.transform);
-        const fontHeight = Math.hypot(transform[2], transform[3]) || 10;
-        const width = typeof item.width === "number" ? item.width * cssViewport.scale : match[0].length * fontHeight * 0.5;
-        appendLink(
-          layer,
-          match[0],
-          transform[4],
-          transform[5] - fontHeight,
-          Math.max(width, fontHeight * 2),
-          Math.max(fontHeight * 1.2, 10)
-        );
+        const p1 = cssViewport.convertToViewportPoint(run.x, run.y);
+        const p2 = cssViewport.convertToViewportPoint(run.x + run.width, run.y);
+        const fontHeight = run.fontSize * cssViewport.scale;
+        const left = Math.min(p1[0], p2[0]);
+        const width = Math.max(Math.abs(p2[0] - p1[0]), fontHeight * 2);
+        const top = Math.min(p1[1], p2[1]) - fontHeight;
+        appendLink(layer, match[0], left, top, width, Math.max(fontHeight * 1.35, 14));
       });
     });
   }
@@ -209,7 +250,7 @@
           });
         });
       },
-      { root: pages, rootMargin: "800px 0px" }
+      { root: pages, rootMargin: "1200px 0px" }
     );
 
     return pdf.getPage(1).then(function (firstPage) {
@@ -266,6 +307,7 @@
   }
 
   document.addEventListener("click", function (event) {
+    if (event.target.closest("a.viewer-link")) return;
     const link = event.target.closest("a[data-pdf]");
     if (link) {
       event.preventDefault();
