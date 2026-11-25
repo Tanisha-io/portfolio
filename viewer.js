@@ -74,25 +74,38 @@
     pages.appendChild(status);
   }
 
+  function resolveAnnotationUrl(ann) {
+    if (!ann) return "";
+    if (ann.url) return ann.url;
+    if (ann.unsafeUrl) return ann.unsafeUrl;
+    if (ann.action && typeof ann.action === "string" && /^https?:\/\//i.test(ann.action)) {
+      return ann.action;
+    }
+    return "";
+  }
+
   function addLinkLayer(page, holder, cssViewport, token) {
     return page.getAnnotations({ intent: "display" }).then(function (annotations) {
       if (token !== session) return;
       const layer = document.createElement("div");
       layer.className = "viewer-links";
       annotations.forEach(function (ann) {
-        if (!ann || ann.subtype !== "Link" || !ann.url) return;
+        if (!ann || ann.subtype !== "Link") return;
+        const href = resolveAnnotationUrl(ann);
+        if (!href) return;
         const rect = cssViewport.convertToViewportRectangle(ann.rect);
         const left = Math.min(rect[0], rect[2]);
         const top = Math.min(rect[1], rect[3]);
         const width = Math.abs(rect[0] - rect[2]);
         const height = Math.abs(rect[1] - rect[3]);
-        if (width < 2 || height < 2) return;
+        if (width < 1 || height < 1) return;
         const link = document.createElement("a");
         link.className = "viewer-link";
-        link.href = ann.url;
+        link.href = href;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
-        link.title = ann.url;
+        link.title = href;
+        link.setAttribute("aria-label", href);
         link.style.left = left + "px";
         link.style.top = top + "px";
         link.style.width = width + "px";
@@ -103,10 +116,11 @@
     });
   }
 
-  function paintPage(pdf, pageNumber, holder, cssWidth, token) {
+  function paintPage(pdf, pageNumber, holder, token) {
     return pdf.getPage(pageNumber).then(function (page) {
       if (token !== session) return;
       const unscaled = page.getViewport({ scale: 1 });
+      const cssWidth = Math.max(holder.clientWidth || 0, 280);
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
       const cssScale = cssWidth / unscaled.width;
       const cssViewport = page.getViewport({ scale: cssScale });
@@ -127,9 +141,13 @@
     });
   }
 
+  function pageWidth() {
+    return Math.min(Math.max(pages.clientWidth - 24, 280), 820);
+  }
+
   function showDocument(pdf, token) {
     pages.replaceChildren();
-    const cssWidth = Math.max(pages.clientWidth - 24, 280);
+    const width = pageWidth();
     pageObserver = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
@@ -138,7 +156,7 @@
           if (holder.dataset.rendered === "1") return;
           holder.dataset.rendered = "1";
           pageObserver.unobserve(holder);
-          paintPage(pdf, Number(holder.dataset.page), holder, cssWidth, token).catch(function () {
+          paintPage(pdf, Number(holder.dataset.page), holder, token).catch(function () {
             if (token !== session) return;
             holder.textContent = "This page could not be shown.";
           });
@@ -154,6 +172,7 @@
         const holder = document.createElement("div");
         holder.className = "viewer-page";
         holder.dataset.page = String(i);
+        holder.style.width = width + "px";
         holder.style.aspectRatio = base.width + " / " + base.height;
         pages.appendChild(holder);
         pageObserver.observe(holder);
@@ -174,7 +193,7 @@
     loadPdfJs()
       .then(function (pdfjs) {
         if (token !== session) return null;
-        return pdfjs.getDocument({ url: fileUrl }).promise;
+        return pdfjs.getDocument({ url: fileUrl, withCredentials: false }).promise;
       })
       .then(function (pdf) {
         if (!pdf || token !== session) {
@@ -217,6 +236,7 @@
   });
 
   pages.addEventListener("contextmenu", function (event) {
+    if (event.target.closest("a.viewer-link")) return;
     event.preventDefault();
   });
 })();
