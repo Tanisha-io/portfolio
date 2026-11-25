@@ -528,6 +528,14 @@ img {
   border-radius: 0.3rem;
   margin-bottom: 0;
   background: #2a2a2a;
+  object-fit: cover;
+}
+
+.hl-card img.hl-logo {
+  object-fit: contain;
+  object-position: center;
+  background: #f5f5f5;
+  padding: 0.65rem;
 }
 
 .hl-card figcaption {
