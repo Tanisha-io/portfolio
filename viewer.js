@@ -89,21 +89,6 @@
     return "";
   }
 
-  function openExternal(href, event) {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    const safeHref = normalizeHref(href);
-    if (!safeHref) return;
-    if (/^mailto:/i.test(safeHref)) {
-      window.location.href = safeHref;
-      return;
-    }
-    const opened = window.open(safeHref, "_blank", "noopener,noreferrer");
-    if (!opened) window.location.assign(safeHref);
-  }
-
   function appendLink(layer, href, left, top, width, height) {
     const safeHref = normalizeHref(href);
     if (!safeHref || width < 2 || height < 2) return;
@@ -120,8 +105,9 @@
     link.style.top = Math.max(0, top - padY) + "px";
     link.style.width = width + padX * 2 + "px";
     link.style.height = Math.max(height, 14) + padY * 2 + "px";
+    // Keep the portfolio tab open; let the browser open the real URL in a new tab.
     link.addEventListener("click", function (event) {
-      openExternal(safeHref, event);
+      event.stopPropagation();
     });
     layer.appendChild(link);
   }
