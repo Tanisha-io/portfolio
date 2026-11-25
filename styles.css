@@ -429,6 +429,12 @@ img {
   object-position: center;
 }
 
+.exp-media img.exp-fit-wide {
+  object-fit: contain;
+  object-position: center;
+  background: #111;
+}
+
 .placeholder,
 .ph {
   display: grid;
