@@ -418,6 +418,17 @@ img {
   margin: 0;
 }
 
+.exp-media img.exp-fit-height {
+  width: auto;
+  max-width: none;
+  height: 100%;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  object-fit: cover;
+  object-position: center;
+}
+
 .placeholder,
 .ph {
   display: grid;
